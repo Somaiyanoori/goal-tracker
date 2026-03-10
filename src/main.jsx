@@ -5,6 +5,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import createAppTheme from "./theme/theme";
 import { getDirection } from "./theme/direction";
+import "./i18n";  
 
 function Root() {
   const [mode, setMode] = useState("light");       // light / dark
