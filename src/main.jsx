@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -18,12 +19,14 @@ function Root() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <App
-        mode={mode}
-        setMode={setMode}
-        language={language}
-        setLanguage={setLanguage}
-      />
+      <BrowserRouter>
+        <App
+          mode={mode}
+          setMode={setMode}
+          language={language}
+          setLanguage={setLanguage}
+        />
+      </BrowserRouter>
     </ThemeProvider>
   );
 }
