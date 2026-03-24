@@ -12,7 +12,7 @@ export function calculateStreak(logs) {
     const oneDay = 1000 * 60 * 60 * 24;
     const dates = [...new Set(
     logs.map(date => {
-      const d = new Date(date).filter(d => !isNaN(d));
+      const d = new Date(date);
       d.setHours(0, 0, 0, 0);
       return d.getTime();
     })
