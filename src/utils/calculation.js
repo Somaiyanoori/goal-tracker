@@ -9,25 +9,26 @@ export function calculateProgress(current, target) {
 // Streak
 export function calculateStreak(logs) {
     if (!logs || logs.length === 0) return 0;
+    const oneDay = 1000 * 60 * 60 * 24;
     const dates = [...new Set(
-        logs.map(date => new Date(date).toISOString().split("T")[0])
-    )]
-        .map(date => {
-            const d = new Date(date);
-            d.setHours(0, 0, 0, 0);
-            return d;
-        })
-        .sort((a, b) => b - a);
-    let streak = 0;
+    logs.map(date => {
+      const d = new Date(date).filter(d => !isNaN(d));
+      d.setHours(0, 0, 0, 0);
+      return d.getTime();
+    })
+  )].sort((a, b) => b - a); 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
+    let streak = 0;
+    let currentDay = today.getTime();
     for (let i = 0; i < dates.length; i++) {
-        const logDate = dates[i];
-        const diff = Math.floor(
-            (today - logDate) / (1000 * 60 * 60 * 24)
-        );
-        if (diff === streak || (streak === 0 && diff === 1)) {
+        const logDay = dates[i];
+        if (logDay === currentDay) {
             streak++;
+            currentDay -= oneDay;
+        }  else if (logDay === currentDay - oneDay && streak === 0) {
+            streak++;
+            currentDay = logDay - oneDay;
         } else {
             break;
         }
