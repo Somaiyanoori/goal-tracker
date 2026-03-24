@@ -20,7 +20,6 @@ import { getDirection } from "./theme/direction";
 import i18n from "./i18n";
 
 function App() {
-  // 1. Move State & Logic here
   const [mode, setMode] = useState("light");
   const [language, setLanguage] = useState("en");
 
