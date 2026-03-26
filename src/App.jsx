@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -12,6 +12,7 @@ import GoalDetails from "./pages/GoalDetails";
 import Categories from "./pages/Categories";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 // Context & Theme
 import { GoalProvider } from "./context/GoalContext";
@@ -19,22 +20,53 @@ import createAppTheme from "./theme/theme";
 import { getDirection } from "./theme/direction";
 import i18n from "./i18n";
 
+// Auth Pages
+import LoginForm from "./components/login.jsx";
+import RegisterForm from "./components/register.jsx";
+
+const LS_AUTH = "auth_data";
+
 function App() {
   const [mode, setMode] = useState("light");
   const [language, setLanguage] = useState("en");
-
+  const [isAuth, setIsAuth] = useState(false);
+  const [user, setUser] = useState(null);
   const direction = getDirection(language);
+
   const theme = useMemo(
     () => createAppTheme(mode, direction),
     [mode, direction],
   );
+  // Load auth from localStorage
+  useEffect(() => {
+    const raw = localStorage.getItem(LS_AUTH);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      setIsAuth(true);
+      setUser(parsed.user);
+    }
+  }, []);
 
-  // 2. Handle Direction & Language
+  function onLogin(userInfo) {
+    const data = { user: userInfo, at: Date.now() };
+    localStorage.setItem(LS_AUTH, JSON.stringify(data));
+    setIsAuth(true);
+    setUser(userInfo);
+  }
+
+  function onLogout() {
+    localStorage.removeItem(LS_AUTH);
+    setIsAuth(false);
+    setUser(null);
+  }
+
+  // Handle direction (RTL/LTR)
   useEffect(() => {
     document.documentElement.dir = direction;
     document.body.dir = direction;
   }, [direction]);
 
+  // Handle language change
   useEffect(() => {
     i18n.changeLanguage(language);
   }, [language]);
@@ -44,12 +76,22 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Dashboard />} />
+          <Route path="/" element={<Layout {...layoutProps} />}>
+            <Route index element={<Dashboard user={user} />} />
             <Route path="goals" element={<Goals />} />
             <Route path="goals/new" element={<CreateGoal />} />
             <Route path="goals/:id" element={<GoalDetails />} />
             <Route path="categories" element={<Categories />} />
+            <Route path="/login" element={<LoginForm onLogin={onLogin} />} />
+            <Route path="/register" element={<RegisterForm />} />
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <Layout isAuth={isAuth} onLogout={onLogout} />
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="settings"
               element={
