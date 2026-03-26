@@ -12,6 +12,7 @@ import GoalDetails from "./pages/GoalDetails";
 import Categories from "./pages/Categories";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
+import ProtectedRoute from './components/ProtectedRoute';
 
 // Context & Theme
 import { GoalProvider } from "./context/GoalContext";
@@ -23,16 +24,40 @@ import i18n from "./i18n";
 import LoginForm from './components/login.jsx'
 import RegisterForm from './components/register.jsx'
 
+const LS_AUTH = "auth_data";
 function App() {
   const [mode, setMode] = useState("light");
   const [language, setLanguage] = useState("en");
-  const [tab, setTab] = useState('login');
+  const [isAuth, setIsAuth] = useState(false);
+  const [user, setUser] = useState(null);
   const direction = getDirection(language);
   const theme = useMemo(
     () => createAppTheme(mode, direction),
     [mode, direction],
   );
-  
+  // Load auth from localStorage
+  useEffect(()=>{
+    const raw = localStorage.getItem(LS_AUTH);
+    if(raw){
+      const parsed= JSON.parse(raw);
+      setIsAuth(true);
+      setUser(parsed.user);
+    }
+  }, []);
+  function onLogin(userInfo) {
+    const data= {user: userInfo, at:Date.now()};
+    localStorage.setItem(LS_AUTH, JSON.stringify(data));
+    setIsAuth(true);
+    setUser(userInfo);
+  }
+  function onLogout(){
+    localStorage.removeItem(LS_AUTH);
+    setIsAuth(false);
+    setUser(null);
+  }
+  const layoutProps = useMemo(()=>(
+    {isAuth,onLogout}
+  ),[isAuth]);
   // 2. Handle Direction & Language
   useEffect(() => {
     document.documentElement.dir = direction;
@@ -48,12 +73,18 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Dashboard />} />
+          <Route path="/" element={<Layout {...layoutProps} />}>
+            <Route index element={<Dashboard user={user} />} />
             <Route path="goals" element={<Goals />} />
             <Route path="goals/new" element={<CreateGoal />} />
             <Route path="goals/:id" element={<GoalDetails />} />
             <Route path="categories" element={<Categories />} />
+            <Route path="/login" element={<LoginForm />} />
+            <Route path="/register" element={<RegisterForm />} />
+            <Route path="dashboard"
+              element={<ProtectedRoute isAuth={isAuth}>
+              <Dashboard user={user}/>
+              </ProtectedRoute>} />
             <Route
               path="settings"
               element={
@@ -65,8 +96,6 @@ function App() {
                 />
               }
             />
-            <Route path="/login" element={<LoginForm />} />
-            <Route path="/register" element={<RegisterForm />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
