@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -19,16 +19,20 @@ import createAppTheme from "./theme/theme";
 import { getDirection } from "./theme/direction";
 import i18n from "./i18n";
 
+// Login & Register
+import LoginForm from './components/login.jsx'
+import RegisterForm from './components/register.jsx'
+
 function App() {
   const [mode, setMode] = useState("light");
   const [language, setLanguage] = useState("en");
-
+  const [tab, setTab] = useState('login');
   const direction = getDirection(language);
   const theme = useMemo(
     () => createAppTheme(mode, direction),
     [mode, direction],
   );
-
+  
   // 2. Handle Direction & Language
   useEffect(() => {
     document.documentElement.dir = direction;
@@ -61,7 +65,8 @@ function App() {
                 />
               }
             />
-
+            <Route path="/login" element={<LoginForm />} />
+            <Route path="/register" element={<RegisterForm />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

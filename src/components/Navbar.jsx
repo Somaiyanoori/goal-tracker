@@ -74,14 +74,25 @@ export default function Navbar({ isAuth, onLogout, onMenuClick }) {
                 Logout
               </Button>
             ) : (
-              <Button
-                variant="contained"
-                color="secondary"
-                component={Link}
-                to="/login"
-              >
-                Login
-              </Button>
+              <>
+                <Button
+                  variant="outlined"
+                  color="inherit"
+                  component={Link}
+                  to="/login"
+                >
+                  Login
+                </Button>
+                
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  component={Link}
+                  to="/register"
+                >
+                  Register
+                </Button>
+              </>
             )}
           </Box>
         )}
