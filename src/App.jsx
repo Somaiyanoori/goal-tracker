@@ -76,22 +76,19 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Routes>
-          <Route path="/" element={<Layout {...layoutProps} />}>
+          <Route path="/login" element={<LoginForm onLogin={onLogin} />} />
+          <Route path="/register" element={<RegisterForm />} />
+          <Route path="/"
+            element={
+              <ProtectedRoute isAuth={isAuth}>
+                <Layout isAuth={isAuth} onLogout={onLogout} />
+              </ProtectedRoute>
+            }>
             <Route index element={<Dashboard user={user} />} />
             <Route path="goals" element={<Goals />} />
             <Route path="goals/new" element={<CreateGoal />} />
             <Route path="goals/:id" element={<GoalDetails />} />
             <Route path="categories" element={<Categories />} />
-            <Route path="/login" element={<LoginForm onLogin={onLogin} />} />
-            <Route path="/register" element={<RegisterForm />} />
-            <Route
-              path="/"
-              element={
-                <ProtectedRoute isAuth={isAuth}>
-                  <Layout isAuth={isAuth} onLogout={onLogout} />
-                </ProtectedRoute>
-              }
-            />
             <Route
               path="settings"
               element={
@@ -103,8 +100,8 @@ function App() {
                 />
               }
             />
-            <Route path="*" element={<NotFound />} />
           </Route>
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </ThemeProvider>
     </GoalProvider>
