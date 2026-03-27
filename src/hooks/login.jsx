@@ -2,91 +2,128 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "../validations/LoginSchema.jsx";
+
+import {
+    Box,
+    TextField,
+    Button,
+    Typography,
+    FormControlLabel,
+    Checkbox,
+    Alert,
+    Stack,
+} from "@mui/material";
+
 export default function LoginForm({ onSwitchToRegister }) {
     const [showPassword, setShowPassword] = useState(false);
     const [success, setSuccess] = useState("");
     const {
-        register, handleSubmit, reset, formState: { errors, isValid, isSubmitting }
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors, isValid, isSubmitting },
     } = useForm({
         mode: "onTouched",
         resolver: yupResolver(loginSchema),
     });
+
     function onSubmit(data) {
         console.log("LOGIN SUBMIT:", {
             email: data.email,
             password: data.password,
+            remember: data.remember,
         });
         reset();
         setSuccess("Login Successful!");
     }
+
     function handleReset() {
         reset();
         setShowPassword(false);
         setSuccess("");
     }
+
     return (
-        <form className="form" onSubmit={handleSubmit(onSubmit)} noValidate>
-            {success && <div className="success">{success}</div>}
-            <div className="field">
-                <label htmlFor="login-email">Email</label>
-                <input
+        <Box
+            component="form"
+            onSubmit={handleSubmit(onSubmit)}
+            noValidate
+            sx={{
+                maxWidth: 400,
+                mx: "auto",
+                mt: 8,
+                p: 3,
+                boxShadow: 3,
+                borderRadius: 2,
+                bgcolor: "background.paper",
+            }}
+        >
+            <Stack spacing={2}>
+                <Typography variant="h5" fontWeight={600} textAlign="center">
+                    Login
+                </Typography>
+                {success && <Alert severity="success">{success}</Alert>}
+                <TextField
+                    label="Email"
                     type="email"
-                    id="login-email"
-                    placeholder="you@example.com"
+                    fullWidth
                     {...register("email")}
+                    error={!!errors.email}
+                    helperText={errors.email?.message}
                     autoComplete="email"
                 />
-                {errors.email && <div className="error">{errors.email.message}</div>}
-            </div>
-            <div className="field">
-                <label htmlFor="login-password">Password</label>
-                <input
+                <TextField
+                    label="Password"
                     type={showPassword ? "text" : "password"}
-                    id="login-password"
-                    placeholder="••••••••"
+                    fullWidth
                     {...register("password")}
+                    error={!!errors.password}
+                    helperText={errors.password?.message}
                     autoComplete="current-password"
                 />
-            </div>
-            <div className="helpRow">
-                <div className="row small" style={{ cursor: "pointer" }}>
-                    <input
-                        className="checkbox"
-                        type="checkbox"
-                        checked={showPassword}
-                        onChange={(e) => setShowPassword(e.target.checked)}
+                <Box display="flex" justifyContent="space-between" alignItems="center">
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={showPassword}
+                                onChange={(e) => setShowPassword(e.target.checked)}
+                            />
+                        }
+                        label="Show Password"
                     />
-                    Show Password
-                </div>
-                <span className="small">Min 6 characters</span>
-            </div>
-            {errors.password && <div className="error">{errors.password.message}</div>}
-            <div className="actions">
-                <button
-                    className="primary"
-                    type="submit"
-                    disabled={!isValid || isSubmitting}
-                >
-                    Login
-                </button>
-                <button
-                    className="ghost"
-                    type="button"
-                    onClick={handleReset}
-                >
-                    Reset
-                </button>
-                <p className="small" style={{ margin: 0 }}>
-                    Don't have an account?{" "}
-                    <button
-                        className="ghost"
-                        type="button"
-                        onClick={onSwitchToRegister}
+                    <FormControlLabel
+                        control={<Checkbox {...register("remember")} />}
+                        label="Remember Me"
+                    />
+                </Box>
+                <Typography variant="caption" color="text.secondary">
+                    Min 8 characters, at least one lowercase, uppercase, number, and special character.
+                </Typography>
+                <Stack spacing={1}>
+                    <Button
+                        variant="contained"
+                        type="submit"
+                        disabled={!isValid || isSubmitting}
+                        fullWidth
                     >
+                        Login
+                    </Button>
+                    <Button
+                        variant="outlined"
+                        type="button"
+                        onClick={handleReset}
+                        fullWidth
+                    >
+                        Reset
+                    </Button>
+                </Stack>
+                <Typography variant="body2" textAlign="center">
+                    Don't have an account?{" "}
+                    <Button size="small" onClick={onSwitchToRegister}>
                         Create One
-                    </button>
-                </p>
-            </div>
-        </form>
+                    </Button>
+                </Typography>
+            </Stack>
+        </Box>
     );
 }

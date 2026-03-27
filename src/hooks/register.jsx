@@ -2,102 +2,150 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { registerSchema } from "../validations/RegisterSchema.jsx";
+
+import {
+  Box,
+  TextField,
+  Button,
+  Typography,
+  Checkbox,
+  FormControlLabel,
+  Alert,
+  Stack,
+} from "@mui/material";
+
 export default function RegisterForm() {
-    const [showPassword, setShowPassword] = useState(false);
-    const [success, setSuccess] = useState("");
-    const{register, handleSubmit, reset, formState:{errors, isValid, isSubmitting}}=useForm({
-        mode:"onTouched",
-        resolver: yupResolver(registerSchema),
-    })
-    function onSubmit(data){
-        console.log("REGISTER SUBMIT:",{
-            fullName: data.fullName,
-            email: data.email,
-            password: data.password,
-        });
-        reset();
-        setSuccess("Registration Successful!");
-    }
-    function handleReset(){
-        reset();
-        setShowPassword(false);
-        setSuccess("");
-    }
-    return(
-        <form className="form" onSubmit={handleSubmit(onSubmit)} noValidate>
-            {success && <div className="success">{success}</div>}
-            <div className="field">
-                <label htmlFor="reg-fullname">Full Name</label>
-                <input
-                    type="text" 
-                    id="reg-fullname"
-                    name="fullName"
-                    placeholder="Your full name"
-                    {...register("fullName")}
-                    autoComplete="name"
-                />
-                {errors.fullName && <div className="error">{errors.fullName.message}</div>}
-            </div>
-            <div className="field">
-                <label htmlFor="reg-email">Email</label>
-                <input
-                    type="email" 
-                    id="reg-email"
-                    name="email"
-                    placeholder="Your email address"
-                    {...register("email")}
-                    autoComplete="email"
-                />
-                {errors.email && <div className="error">{errors.email.message}</div>}
-            </div>
-            <div className="field">
-                <label htmlFor="reg-password">Password</label>
-                <input 
-                    type={showPassword? "text" : "password"}
-                    id="reg-password"
-                    name="password"
-                    placeholder="••••••••"
-                    {...register("password")}
-                    autoComplete="password"
-                />
-            </div>
-            <div className="helpRow">
-                <div className="row small" style={{cursor:"pointer"}}>
-                    <input className="checkbox"
-                        type="checkbox"
-                        checked={showPassword}
-                        onChange={(e)=>setShowPassword(e.target.checked)}
-                    />
-                    Show Password
-                </div>
-                <span className="small">Min 8 characters & 1 number</span>
-            </div>
-            {errors.password && <div className="errors">{errors.password.message}</div>}
-            <div className="field">
-                <label htmlFor="reg-confirm-password">Confrim Password</label>
-                <input 
-                    type={showPassword ? "text": "password"}
-                    id="reg-confirm-password"
-                    name="confirmPassword"
-                    placeholder="••••••••"
-                    {...register("confirmPassword")}
-                    autoComplete="new-password"
-                />
-            </div>
-            {errors.confirmPassword && <div className="errors">{errors.confirmPassword.message}</div>}
-            <div className="field">
-                <label className="row small">
-                    <input type="checkbox" {...register("terms")}/> 
-                    I agree to the Terms & Conditions
-                </label>
-            </div>
-            {errors.terms && <div className="errors">{errors.terms.message}</div>}
-            <div className="actions">
-                <button className="primary" type="submit" disabled={!isValid || isSubmitting}>
-                    Create Acoount
-                </button>
-                <button className="ghost" onClick={handleReset} type="button">Reset</button>
-            </div>
-        </form>
-    )
+  const [showPassword, setShowPassword] = useState(false);
+  const [success, setSuccess] = useState("");
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isValid, isSubmitting },
+  } = useForm({
+    mode: "onTouched",
+    resolver: yupResolver(registerSchema),
+  });
+
+  function onSubmit(data) {
+    console.log("REGISTER SUBMIT:", {
+      fullName: data.fullName,
+      email: data.email,
+      password: data.password,
+    });
+    reset();
+    setSuccess("Registration Successful!");
+  }
+
+  function handleReset() {
+    reset();
+    setShowPassword(false);
+    setSuccess("");
+  }
+
+  return (
+    <Box
+      component="form"
+      onSubmit={handleSubmit(onSubmit)}
+      noValidate
+      sx={{
+        maxWidth: 450,
+        mx: "auto",
+        mt: 8,
+        p: 3,
+        boxShadow: 3,
+        borderRadius: 2,
+        bgcolor: "background.paper",
+      }}
+    >
+      <Stack spacing={2}>
+        <Typography variant="h5" textAlign="center" fontWeight={600}>
+          Register
+        </Typography>
+        {success && <Alert severity="success">{success}</Alert>}
+        {/* FULL NAME */}
+        <TextField
+          label="Full Name"
+          fullWidth
+          {...register("fullName")}
+          error={!!errors.fullName}
+          helperText={errors.fullName?.message}
+          autoComplete="name"
+        />
+        {/* EMAIL */}
+        <TextField
+          label="Email"
+          type="email"
+          fullWidth
+          {...register("email")}
+          error={!!errors.email}
+          helperText={errors.email?.message}
+          autoComplete="email"
+        />
+        {/* PASSWORD */}
+        <TextField
+          label="Password"
+          type={showPassword ? "text" : "password"}
+          fullWidth
+          {...register("password")}
+          error={!!errors.password}
+          helperText={errors.password?.message}
+          autoComplete="new-password"
+        />
+        {/* SHOW PASSWORD */}
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={showPassword}
+              onChange={(e) => setShowPassword(e.target.checked)}
+            />
+          }
+          label="Show Password"
+        />
+        {/* PASSWORD HINT */}
+        <Typography variant="caption" color="text.secondary">
+          Min 8 characters & at least 1 number
+        </Typography>
+        {/* CONFIRM PASSWORD */}
+        <TextField
+          label="Confirm Password"
+          type={showPassword ? "text" : "password"}
+          fullWidth
+          {...register("confirmPassword")}
+          error={!!errors.confirmPassword}
+          helperText={errors.confirmPassword?.message}
+          autoComplete="new-password"
+        />
+        {/* TERMS */}
+        <FormControlLabel
+          control={<Checkbox {...register("terms")} />}
+          label="I agree to the Terms & Conditions"
+        />
+        {errors.terms && (
+          <Typography variant="caption" color="error">
+            {errors.terms.message}
+          </Typography>
+        )}
+        {/* ACTIONS */}
+        <Stack spacing={1}>
+          <Button
+            variant="contained"
+            type="submit"
+            disabled={!isValid || isSubmitting}
+            fullWidth
+          >
+            Create Account
+          </Button>
+          <Button
+            variant="outlined"
+            type="button"
+            onClick={handleReset}
+            fullWidth
+          >
+            Reset
+          </Button>
+        </Stack>
+      </Stack>
+    </Box>
+  );
 }
