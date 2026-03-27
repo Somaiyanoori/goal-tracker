@@ -32,7 +32,7 @@ function App() {
   const [isAuth, setIsAuth] = useState(false);
   const [user, setUser] = useState(null);
   const direction = getDirection(language);
-
+  const [loading, setLoading] = useState(true);
   const theme = useMemo(
     () => createAppTheme(mode, direction),
     [mode, direction],
@@ -40,39 +40,32 @@ function App() {
 
   // Load auth from localStorage
   useEffect(() => {
-    const raw = localStorage.getItem(LS_AUTH);
+    const raw = localStorage.getItem(LS_AUTH) || sessionStorage.getItem(LS_AUTH);
     if (raw) {
       const parsed = JSON.parse(raw);
       setIsAuth(true);
       setUser(parsed.user);
     }
+    setLoading(false);
   }, []);
 
-  function onLogin(userInfo) {
+  function onLogin(userInfo, remember = false) {
     const data = { user: userInfo, at: Date.now() };
-    localStorage.setItem(LS_AUTH, JSON.stringify(data));
+    if (remember) {
+      localStorage.setItem(LS_AUTH, JSON.stringify(data));
+    } else {
+      sessionStorage.setItem(LS_AUTH, JSON.stringify(data));
+    }
     setIsAuth(true);
     setUser(userInfo);
   }
 
   function onLogout() {
     localStorage.removeItem(LS_AUTH);
+    sessionStorage.removeItem(LS_AUTH);
     setIsAuth(false);
     setUser(null);
   }
-
-  // Checks local storage for remembering the user
-  useEffect(() => {
-    const raw =
-      localStorage.getItem("auth_data") ||
-      sessionStorage.getItem("auth_data");
-
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      setIsAuth(true);
-      setUser(parsed);
-    }
-  }, []);
 
   // Handle direction (RTL/LTR)
   useEffect(() => {

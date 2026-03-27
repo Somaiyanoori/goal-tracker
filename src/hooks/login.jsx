@@ -14,7 +14,7 @@ import {
     Stack,
 } from "@mui/material";
 
-export default function LoginForm({ onSwitchToRegister }) {
+export default function LoginForm({ onSwitchToRegister, onLogin }) {
     const [showPassword, setShowPassword] = useState(false);
     const [success, setSuccess] = useState("");
     const {
@@ -28,11 +28,17 @@ export default function LoginForm({ onSwitchToRegister }) {
     });
 
     function onSubmit(data) {
+        const userInfo = {
+            email: data.email,
+        };
         console.log("LOGIN SUBMIT:", {
             email: data.email,
             password: data.password,
             remember: data.remember,
         });
+        if (onLogin) {
+            onLogin(userInfo, data.remember);
+        }
         reset();
         setSuccess("Login Successful!");
     }
@@ -112,6 +118,7 @@ export default function LoginForm({ onSwitchToRegister }) {
                         variant="outlined"
                         type="button"
                         onClick={handleReset}
+                        disabled={isSubmitting}
                         fullWidth
                     >
                         Reset
