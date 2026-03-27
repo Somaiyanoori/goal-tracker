@@ -104,7 +104,7 @@ export default function RegisterForm() {
         />
         {/* PASSWORD HINT */}
         <Typography variant="caption" color="text.secondary">
-          Min 8 characters & at least 1 number
+          Min 8 characters, at least one lowercase, uppercase, number, and special character.
         </Typography>
         {/* CONFIRM PASSWORD */}
         <TextField
