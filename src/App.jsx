@@ -21,8 +21,8 @@ import { getDirection } from "./theme/direction";
 import i18n from "./i18n";
 
 // Auth Pages
-import LoginForm from "./components/login.jsx";
-import RegisterForm from "./components/register.jsx";
+//import LoginForm from "./components/login.jsx";
+//import RegisterForm from "./components/register.jsx";
 
 const LS_AUTH = "auth_data";
 
@@ -76,12 +76,12 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Routes>
-          <Route path="/login" element={<LoginForm onLogin={onLogin} />} />
+          <Route path="/login" element={<LoginForm  />} />
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/"
             element={
               <ProtectedRoute isAuth={isAuth}>
-                <Layout isAuth={isAuth} onLogout={onLogout} />
+                <Layout isAuth={isAuth} />
               </ProtectedRoute>
             }>
             <Route index element={<Dashboard user={user} />} />
