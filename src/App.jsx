@@ -44,8 +44,20 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Routes>
+<<<<<<< Updated upstream
           <Route path="/" element={<Layout />}>
             <Route index element={<Dashboard />} />
+=======
+          <Route path="/login" element={<LoginForm onLogin={onLogin} />} />
+          <Route path="/register" element={<RegisterForm />} />
+          <Route path="/"
+            element={
+              <ProtectedRoute isAuth={isAuth}>
+                <Layout isAuth={isAuth} onLogout={onLogout} />
+              </ProtectedRoute>
+            }>
+            <Route index element={<Dashboard user={user} />} />
+>>>>>>> Stashed changes
             <Route path="goals" element={<Goals />} />
             <Route path="goals/new" element={<CreateGoal />} />
             <Route path="goals/:id" element={<GoalDetails />} />
