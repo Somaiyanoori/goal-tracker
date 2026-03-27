@@ -37,6 +37,7 @@ function App() {
     () => createAppTheme(mode, direction),
     [mode, direction],
   );
+
   // Load auth from localStorage
   useEffect(() => {
     const raw = localStorage.getItem(LS_AUTH);
@@ -59,6 +60,19 @@ function App() {
     setIsAuth(false);
     setUser(null);
   }
+
+  // Checks local storage for remembering the user
+  useEffect(() => {
+    const raw =
+      localStorage.getItem("auth_data") ||
+      sessionStorage.getItem("auth_data");
+
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      setIsAuth(true);
+      setUser(parsed);
+    }
+  }, []);
 
   // Handle direction (RTL/LTR)
   useEffect(() => {
