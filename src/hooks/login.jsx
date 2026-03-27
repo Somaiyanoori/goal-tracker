@@ -42,9 +42,6 @@ export default function LoginForm({ onLogin }) {
         }
         reset();
         setSuccess("Login Successful!");
-        setTimeout(() => {
-            navigate("/");
-        }, 500);
     }
 
     function handleReset() {

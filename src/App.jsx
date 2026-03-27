@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
@@ -78,12 +78,13 @@ function App() {
     i18n.changeLanguage(language);
   }, [language]);
 
+  if (loading) return null;
   return (
     <GoalProvider>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Routes>
-          <Route path="/login" element={<LoginForm onLogin={onLogin} />} />
+          <Route path="/login"  element={isAuth ? <Navigate to="/" replace /> : <LoginForm onLogin={onLogin} /> } />
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/"
             element={
