@@ -2,7 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { registerSchema } from "../validations/RegisterSchema.jsx";
-
+import { useNavigate } from "react-router-dom";
 import {
     Box,
     TextField,
@@ -14,7 +14,8 @@ import {
     Stack,
 } from "@mui/material";
 
-export default function RegisterForm({ onSwitchToLogin }) {
+export default function RegisterForm() {
+    const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [success, setSuccess] = useState("");
     const {
@@ -35,6 +36,9 @@ export default function RegisterForm({ onSwitchToLogin }) {
         });
         reset();
         setSuccess("Registration Successful!");
+        setTimeout(() => {
+            navigate("/login");
+        }, 700);
     }
 
     function handleReset() {
@@ -149,7 +153,7 @@ export default function RegisterForm({ onSwitchToLogin }) {
                         <Button
                             size="small"
                             variant="text"
-                            onClick={onSwitchToLogin}
+                            onClick={() => navigate("/login")}
                         >
                             Login
                         </Button>
