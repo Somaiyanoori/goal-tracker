@@ -44,7 +44,17 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Routes>
-          <Route path="/" element={<Layout />}>
+          <Route
+            path="/"
+            element={
+              <Layout
+                mode={mode}
+                setMode={setMode}
+                language={language}
+                setLanguage={setLanguage}
+              />
+            }
+          >
             <Route index element={<Dashboard />} />
             <Route path="goals" element={<Goals />} />
             <Route path="goals/new" element={<CreateGoal />} />
