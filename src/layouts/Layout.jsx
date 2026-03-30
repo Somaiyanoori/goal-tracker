@@ -44,15 +44,31 @@ const Layout = ({ mode, setMode, language, setLanguage }) => {
   };
 
   const menuItems = [
-    { title: t("dashboard"), path: "/", icon: <DashboardIcon /> },
-    { title: t("all_goals"), path: "/goals", icon: <FormatListBulletedIcon /> },
     {
-      title: t("create_goal"),
+      title: t("dashboard") || "Dashboard",
+      path: "/",
+      icon: <DashboardIcon />,
+    },
+    {
+      title: t("all_goals") || "All Goals",
+      path: "/goals",
+      icon: <FormatListBulletedIcon />,
+    },
+    {
+      title: t("create_goal") || "Create Goal",
       path: "/goals/new",
       icon: <AddCircleOutlineIcon />,
     },
-    { title: t("categories"), path: "/categories", icon: <CategoryIcon /> },
-    { title: t("settings"), path: "/settings", icon: <SettingsIcon /> },
+    {
+      title: t("categories") || "Categories",
+      path: "/categories",
+      icon: <CategoryIcon />,
+    },
+    {
+      title: t("settings") || "Settings",
+      path: "/settings",
+      icon: <SettingsIcon />,
+    },
   ];
 
   const drawerContent = (
@@ -64,7 +80,7 @@ const Layout = ({ mode, setMode, language, setLanguage }) => {
           sx={{ fontWeight: "bold", color: "primary.main" }}
         >
           Goal Tracker
-        </Typography>{" "}
+        </Typography>
       </Toolbar>
       <List sx={{ px: 2 }}>
         {menuItems.map((item) => {
@@ -102,8 +118,6 @@ const Layout = ({ mode, setMode, language, setLanguage }) => {
   return (
     <Box sx={{ display: "flex", minHeight: "100vh" }}>
       <CssBaseline />
-
-      {/* Topbar */}
       <AppBar
         position="fixed"
         sx={{
@@ -122,16 +136,11 @@ const Layout = ({ mode, setMode, language, setLanguage }) => {
           >
             <MenuIcon />
           </IconButton>
-
           <Box sx={{ flexGrow: 1 }} />
-
-          {/* Your Tasks inside coworker's Layout */}
           <LanguageToggle language={language} setLanguage={setLanguage} />
           <ThemeToggle mode={mode} setMode={setMode} />
         </Toolbar>
       </AppBar>
-
-      {/* Sidebar */}
       <Box
         component="nav"
         sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}
@@ -166,8 +175,6 @@ const Layout = ({ mode, setMode, language, setLanguage }) => {
           {drawerContent}
         </Drawer>
       </Box>
-
-      {/* Main Content Area */}
       <Box
         component="main"
         sx={{

@@ -29,7 +29,7 @@ function App() {
     [mode, direction],
   );
 
-  // 2. Handle Direction & Language
+  // Handle direction & language
   useEffect(() => {
     document.documentElement.dir = direction;
     document.body.dir = direction;
@@ -71,9 +71,8 @@ function App() {
                 />
               }
             />
-
-            <Route path="*" element={<NotFound />} />
           </Route>
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </ThemeProvider>
     </GoalProvider>
