@@ -22,19 +22,20 @@ import i18n from "./i18n";
 function App() {
   const [mode, setMode] = useState("light");
   const [language, setLanguage] = useState("en");
-
+  
   const direction = getDirection(language);
   const theme = useMemo(
     () => createAppTheme(mode, direction),
-    [mode, direction],
+    [mode, direction]
   );
 
-  // Handle direction & language
+  // Handle direction (RTL/LTR)
   useEffect(() => {
     document.documentElement.dir = direction;
     document.body.dir = direction;
   }, [direction]);
 
+  // Handle language change
   useEffect(() => {
     i18n.changeLanguage(language);
   }, [language]);
