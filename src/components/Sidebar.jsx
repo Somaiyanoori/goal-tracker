@@ -1,15 +1,5 @@
 import { useState } from "react";
-import {
-  Drawer,
-  Box,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  Toolbar,
-  useTheme,
-  useMediaQuery,
-} from "@mui/material";
+import { Drawer, Box, List, ListItem, ListItemButton, ListItemText, Toolbar, useTheme, useMediaQuery } from "@mui/material";
 import { Link } from "react-router-dom";
 const drawerWidth = 240;
 const navItems = [
@@ -44,10 +34,7 @@ export default function Sidebar() {
   ) : (
     <Drawer
       variant="permanent"
-      sx={{
-        width: drawerWidth,
-        "& .MuiDrawer-paper": { width: drawerWidth },
-      }}
+      sx={{ width: drawerWidth, "& .MuiDrawer-paper": { width: drawerWidth } }}
       open
     >
       {drawerContent}

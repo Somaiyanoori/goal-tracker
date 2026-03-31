@@ -1,14 +1,5 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  IconButton,
-  Button,
-  Box,
-  useTheme,
-  useMediaQuery,
-} from "@mui/material";
+import { AppBar, Toolbar, Typography, IconButton, Button, Box, useTheme, useMediaQuery} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 export default function Navbar({ isAuth, onLogout, onMenuClick }) {
   const navigate = useNavigate();
@@ -38,11 +29,7 @@ export default function Navbar({ isAuth, onLogout, onMenuClick }) {
             variant="h6"
             component={Link}
             to="/"
-            sx={{
-              textDecoration: "none",
-              color: "inherit",
-              fontWeight: 700,
-            }}
+            sx={{ textDecoration: "none", color: "inherit", fontWeight: 700 }}
           >
             GoalTracker
           </Typography>
@@ -54,13 +41,7 @@ export default function Navbar({ isAuth, onLogout, onMenuClick }) {
                 key={link.path}
                 component={NavLink}
                 to={link.path}
-                sx={{
-                  color: "inherit",
-                  "&.active": {
-                    fontWeight: "bold",
-                    textDecoration: "underline",
-                  },
-                }}
+                sx={{ color: "inherit", "&.active": { fontWeight: "bold", textDecoration: "underline" }}}
               >
                 {link.label}
               </Button>
@@ -83,7 +64,7 @@ export default function Navbar({ isAuth, onLogout, onMenuClick }) {
                 >
                   Login
                 </Button>
-                
+
                 <Button
                   variant="contained"
                   color="secondary"
