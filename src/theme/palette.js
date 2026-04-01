@@ -6,16 +6,16 @@ export const lightPalette = {
   warning: { main: "#FFD6D6" },
   error: { main: "#FF4D6D" },
   background: { default: "#FFFFFF", paper: "#FFF5F8" },
-  text: { primary: "#4B1A33", secondary: "#7D4960" }
+  text: { primary: "#4B1A33", secondary: "#7D4960" },
 };
 
 export const darkPalette = {
   mode: "dark",
-  primary: { main: "#1A237E" },
+  primary: { main: "#2733b1" },
   secondary: { main: "#3949AB" },
   success: { main: "#90CAF9" },
   warning: { main: "#B0BEC5" },
   error: { main: "#F06292" },
   background: { default: "#0D1B2A", paper: "#1A2A3B" },
-  text: { primary: "#E1E8F0", secondary: "#B0BEC5" }
+  text: { primary: "#E1E8F0", secondary: "#B0BEC5" },
 };

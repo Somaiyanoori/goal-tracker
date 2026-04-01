@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
+import { CacheProvider } from "@emotion/react";
 import CssBaseline from "@mui/material/CssBaseline";
+import createEmotionCache from "./createEmotionCache";
 
 // Components & Pages
 import Layout from "./layouts/Layout";
@@ -26,7 +28,11 @@ function App() {
   const direction = getDirection(language);
   const theme = useMemo(
     () => createAppTheme(mode, direction),
-    [mode, direction]
+    [mode, direction],
+  );
+  const emotionCache = useMemo(
+    () => createEmotionCache(direction),
+    [direction],
   );
 
   // Handle direction (RTL/LTR)
@@ -41,42 +47,44 @@ function App() {
   }, [language]);
 
   return (
-    <GoalProvider>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Layout
-                mode={mode}
-                setMode={setMode}
-                language={language}
-                setLanguage={setLanguage}
-              />
-            }
-          >
-            <Route index element={<Dashboard />} />
-            <Route path="goals" element={<Goals />} />
-            <Route path="goals/new" element={<CreateGoal />} />
-            <Route path="goals/:id" element={<GoalDetails />} />
-            <Route path="categories" element={<Categories />} />
+    <CacheProvider value={emotionCache}>
+      <GoalProvider>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Routes>
             <Route
-              path="settings"
+              path="/"
               element={
-                <Settings
+                <Layout
                   mode={mode}
                   setMode={setMode}
                   language={language}
                   setLanguage={setLanguage}
                 />
               }
-            />
-          </Route>
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </ThemeProvider>
-    </GoalProvider>
+            >
+              <Route index element={<Dashboard />} />
+              <Route path="goals" element={<Goals />} />
+              <Route path="goals/new" element={<CreateGoal />} />
+              <Route path="goals/:id" element={<GoalDetails />} />
+              <Route path="categories" element={<Categories />} />
+              <Route
+                path="settings"
+                element={
+                  <Settings
+                    mode={mode}
+                    setMode={setMode}
+                    language={language}
+                    setLanguage={setLanguage}
+                  />
+                }
+              />
+            </Route>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </ThemeProvider>
+      </GoalProvider>
+    </CacheProvider>
   );
 }
 

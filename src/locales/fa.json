@@ -8,5 +8,22 @@
   "current_streak": "سلسله فعلی",
   "total_xp": "کل XP",
   "dark_mode": "حالت تاریک",
-  "language": "زبان"
+  "language": "زبان",
+    "goal_title": "عنوان هدف",
+  "category": "دسته‌بندی",
+  "goal_type": "نوع هدف",
+  "target_number": "مقدار هدف (عدد)",
+  "start_date": "تاریخ شروع",
+  "end_date": "تاریخ پایان (اختیاری)",
+  "save": "ذخیره هدف",
+  "cancel": "انصراف",
+  "health": "سلامتی",
+  "study": "مطالعه",
+  "work": "کار",
+  "personal": "شخصی",
+  "finance": "مالی",
+  "daily": "روزانه",
+  "count": "تعدادی",
+  "time": "زمانی",
+  "error_empty": "لطفاً تمام فیلدهای اجباری را پر کنید!"
 }
