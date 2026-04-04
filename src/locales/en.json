@@ -8,5 +8,22 @@
   "current_streak": "Current Streak",
   "total_xp": "Total XP",
   "dark_mode": "Dark Mode",
-  "language": "Language"
+  "language": "Language",
+    "goal_title": "Goal Title",
+  "category": "Category",
+  "goal_type": "Goal Type",
+  "target_number": "Target Amount",
+  "start_date": "Start Date",
+  "end_date": "End Date (Optional)",
+  "save": "Save Goal",
+  "cancel": "Cancel",
+  "health": "Health",
+  "study": "Study",
+  "work": "Work",
+  "personal": "Personal",
+  "finance": "Finance",
+  "daily": "Daily",
+  "count": "Count-based",
+  "time": "Time-based",
+  "error_empty": "Please fill in all required fields!"
 }
