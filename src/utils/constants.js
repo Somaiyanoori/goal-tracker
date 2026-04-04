@@ -1,3 +1,2 @@
-export const CATEGORIES = ["health", "study", "work", "personal", "finance"];
-
-export const GOAL_TYPES = ["daily", "count", "time"];
+export const CATEGORIES = ["Health", "Study", "Work", "Personal", "Finance"];
+export const GOAL_TYPES = ["Daily", "Count", "Time"];
