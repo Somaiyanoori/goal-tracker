@@ -5,10 +5,12 @@ import { useNavigate } from "react-router-dom";
 const GoalDetails = () => {
   const { id } = useParams();
   const { goals } = useGoals();
-  const goal = goals[id];
+  const goal = goals.find((g) => g.id === id);
   const navigate = useNavigate();
   if (!goal) {
-    return <Typography onClick={() => navigate("*")}>Goal not found</Typography>;
+    return (
+      <Typography onClick={() => navigate("*")}>Goal not found</Typography>
+    );
   }
 
   return (
