@@ -61,7 +61,7 @@ const Settings = ({ mode, setMode, language, setLanguage }) => {
                 onChange={handleLanguageChange}
               >
                 <MenuItem value="en">English</MenuItem>
-                <MenuItem value="ar">Persian</MenuItem>
+                <MenuItem value="fa">Persian</MenuItem>
               </Select>
             </FormControl>
           </Stack>

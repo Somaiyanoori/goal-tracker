@@ -1,14 +1,14 @@
 import { useParams } from "react-router-dom";
 import { Container, Typography, Paper, Stack } from "@mui/material";
 import { useGoals } from "../context/GoalContext";
-
+import { useNavigate } from "react-router-dom";
 const GoalDetails = () => {
   const { id } = useParams();
   const { goals } = useGoals();
   const goal = goals[id];
-
+  const navigate = useNavigate();
   if (!goal) {
-    return <Typography>Goal not found</Typography>;
+    return <Typography onClick={() => navigate("*")}>Goal not found</Typography>;
   }
 
   return (
