@@ -1,7 +1,30 @@
-import React from "react";
-
+import { useParams } from "react-router-dom";
+import { Container, Typography, Paper, Stack } from "@mui/material";
+import { useGoals } from "../context/GoalContext";
+import { useNavigate } from "react-router-dom";
 const GoalDetails = () => {
-  return <div>GoalDetails</div>;
+  const { id } = useParams();
+  const { goals } = useGoals();
+  const goal = goals.find((g) => g.id === id);
+  const navigate = useNavigate();
+  if (!goal) {
+    return (
+      <Typography onClick={() => navigate("*")}>Goal not found</Typography>
+    );
+  }
+
+  return (
+    <Container sx={{ mt: 4 }}>
+      <Paper sx={{ p: 4, borderRadius: 3 }}>
+        <Stack spacing={2}>
+          <Typography variant="h5">{goal.title}</Typography>
+          <Typography>Category: {goal.category}</Typography>
+          <Typography>Progress: {goal.progress}</Typography>
+          <Typography>Target: {goal.target}</Typography>
+        </Stack>
+      </Paper>
+    </Container>
+  );
 };
 
 export default GoalDetails;
