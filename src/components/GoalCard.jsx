@@ -1,15 +1,27 @@
-import { Card, CardContent, Typography, Chip, LinearProgress, Stack, IconButton, Box} from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Chip,
+  LinearProgress,
+  Stack,
+  IconButton,
+  Box,
+} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useGoals } from "../context/GoalContext";
+import { Link } from "react-router-dom";
 
 const GoalCard = ({ goal }) => {
+  const { logProgress, deleteGoal } = useGoals();
   const progressPercentage = Math.min(100,Math.round((goal.progress / goal.target) * 100));
 
   return (
     <Card
       elevation={3}
-      sx={{ borderRadius: 3, transition: "0.3s", "&:hover": { boxShadow: 6 }, display: "flex", flexDirection: "column", justifyContent: "space-between" }}
+      sx={{ borderRadius: 3, transition: "0.3s", "&:hover": { boxShadow: 6 }, display: "flex", flexDirection: "column", justifyContent: "space-between", height: "100%" } }
     >
       <CardContent>
         <Stack spacing={2}>
@@ -30,13 +42,23 @@ const GoalCard = ({ goal }) => {
             </Typography>
           </Box>
           <Stack direction="row" justifyContent="flex-end" spacing={1}>
-            <IconButton color="primary">
+            <IconButton
+              color="primary"
+              onClick={() => logProgress(goal.id)}
+            >
               <AddIcon />
             </IconButton>
-            <IconButton color="warning">
+            <IconButton
+              color="warning"
+              component={Link}
+              to={`/goals/${goal.id}/edit`}
+            >
               <EditIcon />
             </IconButton>
-            <IconButton color="error">
+            <IconButton
+              color="error"
+              onClick={() => deleteGoal(goal.id)}
+            >
               <DeleteIcon />
             </IconButton>
           </Stack>
