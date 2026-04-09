@@ -14,7 +14,7 @@ import GoalDetails from "./pages/GoalDetails";
 import Categories from "./pages/Categories";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
-
+import EditGoal from "./pages/EditGoal";
 // Context & Theme
 import { GoalProvider } from "./context/GoalContext";
 import createAppTheme from "./theme/theme";
@@ -24,7 +24,7 @@ import i18n from "./i18n";
 function App() {
   const [mode, setMode] = useState("light");
   const [language, setLanguage] = useState("en");
-  
+
   const direction = getDirection(language);
   const theme = useMemo(
     () => createAppTheme(mode, direction),
@@ -67,6 +67,7 @@ function App() {
               <Route path="goals" element={<Goals />} />
               <Route path="goals/new" element={<CreateGoal />} />
               <Route path="goals/:id" element={<GoalDetails />} />
+              <Route path="goals/:id/edit" element={<EditGoal />} />
               <Route path="categories" element={<Categories />} />
               <Route
                 path="settings"
