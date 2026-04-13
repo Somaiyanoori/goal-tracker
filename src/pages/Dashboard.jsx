@@ -4,6 +4,16 @@ import { Container, Typography, Grid, Paper, Box, Icon, Button } from "@mui/mate
 import { useGoals } from "../context/GoalContext";
 import GoalCard from "../components/GoalCard";
 import { calculateOverallCompletion, calculateOverallStreak} from "../utils/calculation";
+// src/pages/Dashboard.jsx
+
+import React, { useMemo } from "react";
+import { Container, Typography, Grid, Paper, Box, Icon } from "@mui/material";
+import { useGoals } from "../context/GoalContext";
+import GoalCard from "../components/GoalCard";
+import {
+  calculateOverallCompletion,
+  calculateOverallStreak,
+} from "../utils/calculation";
 
 // Helper component for stat cards
 const StatCard = ({ title, value, icon, color }) => (
