@@ -1,19 +1,20 @@
-import { useMemo } from "react";
 import { Link } from "react-router-dom";
-import { Container, Typography, Grid, Paper, Box, Icon, Button } from "@mui/material";
-import { useGoals } from "../context/GoalContext";
-import GoalCard from "../components/GoalCard";
-import { calculateOverallCompletion, calculateOverallStreak} from "../utils/calculation";
-// src/pages/Dashboard.jsx
-
-import React, { useMemo } from "react";
-import { Container, Typography, Grid, Paper, Box, Icon } from "@mui/material";
+import {
+  Container,
+  Typography,
+  Grid,
+  Paper,
+  Box,
+  Icon,
+  Button,
+} from "@mui/material";
 import { useGoals } from "../context/GoalContext";
 import GoalCard from "../components/GoalCard";
 import {
   calculateOverallCompletion,
   calculateOverallStreak,
 } from "../utils/calculation";
+import React, { useMemo } from "react";
 
 // Helper component for stat cards
 const StatCard = ({ title, value, icon, color }) => (
@@ -108,18 +109,19 @@ const Dashboard = () => {
         </Grid>
       ) : (
         <Paper
-          sx={{ p: 4, textAlign: "center", backgroundColor: "background.default", color: "text.primary" }}
+          sx={{
+            p: 4,
+            textAlign: "center",
+            backgroundColor: "background.default",
+            color: "text.primary",
+          }}
           variant="outlined"
         >
           <Typography variant="h6">No active goals yet.</Typography>
           <Typography color="text.secondary">
             Create a new goal to get started!
           </Typography>
-          <Button
-            variant="contained"
-            component={Link}
-            to="/goals/new"
-          >
+          <Button variant="contained" component={Link} to="/goals/new">
             Create Goal
           </Button>
         </Paper>
