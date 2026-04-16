@@ -1,10 +1,12 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { AppBar, Toolbar, Typography, IconButton, Button, Box, useTheme, useMediaQuery} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import { useTranslation } from "react-i18next";
 export default function Navbar({ isAuth, onLogout, onMenuClick }) {
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const { t } = useTranslation();
   const handleLogout = () => {
     onLogout();
     navigate("/", { replace: true });
@@ -31,7 +33,7 @@ export default function Navbar({ isAuth, onLogout, onMenuClick }) {
             to="/"
             sx={{ textDecoration: "none", color: "inherit", fontWeight: 700 }}
           >
-            GoalTracker
+            {t("goal_tracker")}
           </Typography>
         </Box>
         {!isMobile && (

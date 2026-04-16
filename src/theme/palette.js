@@ -11,11 +11,11 @@ export const lightPalette = {
 
 export const darkPalette = {
   mode: "dark",
-  primary: { main: "#2733b1" },
-  secondary: { main: "#3949AB" },
+  primary: { main: "#1E88E5" },
+  secondary: { main: "#42A5F5" },
   success: { main: "#90CAF9" },
   warning: { main: "#B0BEC5" },
-  error: { main: "#F06292" },
+  error: { main: "#c3605e" },
   background: { default: "#0D1B2A", paper: "#1A2A3B" },
   text: { primary: "#E1E8F0", secondary: "#B0BEC5" },
 };

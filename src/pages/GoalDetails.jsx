@@ -31,7 +31,7 @@ const GoalDetails = () => {
         <Stack spacing={2}>
           <Typography variant="h5">{goal.title}</Typography>
           <Typography>
-            {t("category")}: {t(goal.category.toLowerCase())}
+            {t("category")}: {t(goal.category?.trim().toLowerCase(), goal.category)}
           </Typography>
           <Typography>
             {t("progress")}: {goal.progress}
