@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
@@ -13,7 +13,6 @@ import {
   Box,
   CircularProgress,
 } from "@mui/material";
-
 import { useGoals } from "../context/GoalContext";
 import { CATEGORIES, GOAL_TYPES } from "../utils/constants";
 
@@ -22,7 +21,6 @@ const EditGoal = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { goals, updateGoal } = useGoals();
-
   const [formData, setFormData] = useState({
     title: "",
     category: "",
@@ -34,26 +32,24 @@ const EditGoal = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
 
-  // Find the goal to edit and populate the form
   useEffect(() => {
     const goalToEdit = goals.find((g) => g.id === id);
     if (goalToEdit) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setFormData({
         title: goalToEdit.title,
         category: goalToEdit.category,
         type: goalToEdit.type,
         target: goalToEdit.target,
         startDate: goalToEdit.startDate.split("T")[0],
-        endDate: goalToEdit.endDate ? goalToEdit.endDate.split("T")[0] : "",
+        endDate: goalToEdit.endDate
+          ? goalToEdit.endDate.split("T")[0]
+          : "",
       });
       setLoading(false);
     } else {
-      // If goal not found, redirect after a short delay
       setTimeout(() => navigate("/404"), 1000);
     }
   }, [id, goals, navigate]);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -61,11 +57,9 @@ const EditGoal = () => {
       [name]: value,
     }));
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
-
     if (
       !formData.title ||
       !formData.category ||
@@ -75,7 +69,6 @@ const EditGoal = () => {
       setError(t("error_empty"));
       return;
     }
-
     const updatedGoalData = {
       title: formData.title,
       category: formData.category,
@@ -84,16 +77,15 @@ const EditGoal = () => {
       startDate: formData.startDate,
       endDate: formData.endDate || null,
     };
-
     updateGoal(id, updatedGoalData);
-    navigate(`/goals/${id}`); // Navigate to the details page after editing
+    navigate(`/goals/${id}`);
   };
 
   if (loading) {
     return (
       <Container sx={{ textAlign: "center", mt: 5 }}>
         <CircularProgress />
-        <Typography>Loading goal data...</Typography>
+        <Typography>{t("loading_goal_data")}</Typography>
       </Container>
     );
   }
@@ -108,15 +100,13 @@ const EditGoal = () => {
           fontWeight="bold"
           color="primary"
         >
-          Edit Goal
+          {t("edit_goal")}
         </Typography>
-
         {error && (
           <Alert severity="error" sx={{ mb: 3 }}>
             {error}
           </Alert>
         )}
-
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 2 }}>
           <Stack spacing={3}>
             <TextField
@@ -193,7 +183,6 @@ const EditGoal = () => {
                 InputLabelProps={{ shrink: true }}
               />
             </Stack>
-
             <Stack
               direction="row"
               spacing={2}

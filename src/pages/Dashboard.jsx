@@ -1,3 +1,4 @@
+import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
 import {
   Container,
@@ -8,20 +9,25 @@ import {
   Icon,
   Button,
 } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { useGoals } from "../context/GoalContext";
 import GoalCard from "../components/GoalCard";
 import {
   calculateOverallCompletion,
   calculateOverallStreak,
 } from "../utils/calculation";
-import React, { useMemo } from "react";
 
 // Helper component for stat cards
 const StatCard = ({ title, value, icon, color }) => (
   <Paper
     elevation={0}
     variant="outlined"
-    sx={{ p: 2, display: "flex", alignItems: "center", height: "100%" }}
+    sx={{
+      p: 2,
+      display: "flex",
+      alignItems: "center",
+      height: "100%",
+    }}
   >
     <Box
       sx={{
@@ -37,10 +43,12 @@ const StatCard = ({ title, value, icon, color }) => (
     >
       <Icon>{icon}</Icon>
     </Box>
+
     <Box>
       <Typography variant="body2" color="text.secondary">
         {title}
       </Typography>
+
       <Typography variant="h5" fontWeight="bold">
         {value}
       </Typography>
@@ -49,23 +57,30 @@ const StatCard = ({ title, value, icon, color }) => (
 );
 
 const Dashboard = () => {
+  const { t, i18n } = useTranslation();
   const { goals, userStats } = useGoals();
   const overallCompletion = useMemo(
     () => calculateOverallCompletion(goals),
-    [goals],
+    [goals]
   );
-  const streak = useMemo(() => calculateOverallStreak(goals), [goals]);
-  const activeGoals = goals.filter((g) => g.status === "active").slice(0, 6);
+  const streak = useMemo(
+    () => calculateOverallStreak(goals),
+    [goals]
+  );
+  const activeGoals = goals
+    .filter((g) => g.status === "active")
+    .slice(0, 6);
+  const isFa = i18n.language === "fa";
 
   return (
     <Container maxWidth="lg">
       <Typography variant="h5" fontWeight="bold" gutterBottom>
-        Dashboard Overview
+        {t("dashboard_overview")}
       </Typography>
       <Grid container spacing={3} sx={{ mb: 4 }}>
         <Grid item xs={12} sm={6} md={3}>
           <StatCard
-            title="Overall Completion"
+            title={t("overall_completion")}
             value={`${overallCompletion}%`}
             icon="checklist"
             color="primary"
@@ -73,15 +88,19 @@ const Dashboard = () => {
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <StatCard
-            title="Current Streak"
-            value={`${streak} Days`}
+            title={t("current_streak")}
+            value={
+              isFa
+                ? `${streak} ${t("days")}`
+                : `${streak} ${t("days")}`
+            }
             icon="local_fire_department"
             color="error"
           />
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <StatCard
-            title="Total XP"
+            title={t("total_xp")}
             value={userStats.xp}
             icon="star"
             color="warning"
@@ -89,7 +108,7 @@ const Dashboard = () => {
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <StatCard
-            title="Goals Completed"
+            title={t("goals_completed")}
             value={userStats.completedCount}
             icon="emoji_events"
             color="success"
@@ -97,7 +116,7 @@ const Dashboard = () => {
         </Grid>
       </Grid>
       <Typography variant="h5" fontWeight="bold" gutterBottom>
-        Active Goals
+        {t("active_goals")}
       </Typography>
       {activeGoals.length > 0 ? (
         <Grid container spacing={3}>
@@ -109,20 +128,26 @@ const Dashboard = () => {
         </Grid>
       ) : (
         <Paper
+          variant="outlined"
           sx={{
             p: 4,
             textAlign: "center",
             backgroundColor: "background.default",
             color: "text.primary",
           }}
-          variant="outlined"
         >
-          <Typography variant="h6">No active goals yet.</Typography>
-          <Typography color="text.secondary">
-            Create a new goal to get started!
+          <Typography variant="h6">
+            {t("no_active_goals")}
           </Typography>
-          <Button variant="contained" component={Link} to="/goals/new">
-            Create Goal
+          <Typography color="text.secondary" sx={{ mb: 2 }}>
+            {t("create_goal_message")}
+          </Typography>
+          <Button
+            variant="contained"
+            component={Link}
+            to="/goals/new"
+          >
+            {t("create_goal")}
           </Button>
         </Paper>
       )}

@@ -1,19 +1,20 @@
 import { Container, Typography, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const NotFound = () => {
   const navigate = useNavigate();
-
+  const { t } = useTranslation();
   return (
     <Container sx={{ mt: 4, textAlign: "center" }}>
       <Typography variant="h3" gutterBottom>
-        404
+        {t("notFound.title")}
       </Typography>
       <Typography variant="h6" gutterBottom>
-        Page Not Found
+        {t("notFound.message")}
       </Typography>
       <Button variant="contained" onClick={() => navigate("/")}>
-        Go Home
+        {t("notFound.goHome")}
       </Button>
     </Container>
   );
