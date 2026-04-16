@@ -1,5 +1,3 @@
-// src/pages/Categories.jsx
-
 import React, { useMemo } from "react";
 import {
   Container,
@@ -12,6 +10,7 @@ import {
   Stack,
   LinearProgress,
 } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { useGoals } from "../context/GoalContext";
 import { CATEGORIES } from "../utils/constants";
 import { calculateProgress } from "../utils/calculation";
@@ -23,11 +22,12 @@ const categoryIcons = {
   Work: "work",
   Personal: "person",
   Finance: "account_balance_wallet",
-  Default: "category", // A fallback icon
+  Default: "category",
 };
 
 // Reusable component for displaying a category card
 const CategoryCard = ({ categoryName, stats }) => {
+  const { t } = useTranslation();
   const { active, completed, total, overallProgress } = stats;
   const icon = categoryIcons[categoryName] || categoryIcons.Default;
 
@@ -36,7 +36,7 @@ const CategoryCard = ({ categoryName, stats }) => {
       elevation={2}
       sx={{
         p: 3,
-        borderRadius: 4, // Slightly more rounded
+        borderRadius: 4,
         height: "100%",
         display: "flex",
         flexDirection: "column",
@@ -53,25 +53,25 @@ const CategoryCard = ({ categoryName, stats }) => {
             {icon}
           </Icon>
           <Typography variant="h5" fontWeight="bold">
-            {categoryName}
+            {t(categoryName.toLowerCase())}
           </Typography>
         </Stack>
         <Divider sx={{ my: 2 }} />
         <Stack spacing={1.5}>
           <Typography variant="body1">
-            <strong>Total Goals:</strong> {total}
+            <strong>{t("total_goals")}:</strong> {total}
           </Typography>
           <Typography variant="body1">
-            <strong>Active:</strong> {active}
+            <strong>{t("active")}:</strong> {active}
           </Typography>
           <Typography variant="body1">
-            <strong>Completed:</strong> {completed}
+            <strong>{t("completed")}:</strong> {completed}
           </Typography>
         </Stack>
       </Box>
       <Box mt={3}>
         <Typography variant="body2" color="text.secondary">
-          Overall Progress
+          {t("overall_progress")}
         </Typography>
         <LinearProgress
           variant="determinate"
@@ -85,8 +85,8 @@ const CategoryCard = ({ categoryName, stats }) => {
 
 // Main component for the Categories page
 const Categories = () => {
+  const { t } = useTranslation();
   const { goals } = useGoals();
-
   const categoryStats = useMemo(() => {
     const stats = {};
     CATEGORIES.forEach((cat) => {
@@ -108,7 +108,7 @@ const Categories = () => {
           stats[category].active++;
           stats[category].totalProgress += calculateProgress(
             goal.progress,
-            goal.target,
+            goal.target
           );
           stats[category].activeGoalsCount++;
         } else if (goal.status === "completed") {
@@ -116,34 +116,30 @@ const Categories = () => {
         }
       }
     });
-
     for (const cat in stats) {
       const stat = stats[cat];
       if (stat.activeGoalsCount > 0) {
         stat.overallProgress = Math.round(
-          stat.totalProgress / stat.activeGoalsCount,
+          stat.totalProgress / stat.activeGoalsCount
         );
       } else if (stat.total > 0 && stat.active === 0) {
-        stat.overallProgress = 100; // All goals are completed
+        stat.overallProgress = 100;
       }
     }
     return stats;
   }, [goals]);
-
   const hasAnyGoals = goals.length > 0;
 
   return (
-    // We use maxWidth="md" to make the content area a bit narrower, forcing the cards to be bigger.
     <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
       <Typography variant="h4" fontWeight="bold" gutterBottom>
-        Categories Overview
+        {t("categories_overview")}
       </Typography>
 
       {hasAnyGoals ? (
         <Grid container spacing={4}>
           {CATEGORIES.map((category) => (
             <Grid item xs={12} sm={6} key={category}>
-              {/* xs=12 -> 1 card/row on mobile. sm=6 -> 2 cards/row on tablet & desktop */}
               <CategoryCard
                 categoryName={category}
                 stats={categoryStats[category]}
@@ -155,9 +151,9 @@ const Categories = () => {
         <Paper
           sx={{ p: 5, textAlign: "center", mt: 3, border: "1px dashed #ccc" }}
         >
-          <Typography variant="h6">No Goals Found.</Typography>
+          <Typography variant="h6">{t("no_goals_found")}</Typography>
           <Typography color="text.secondary">
-            Create a new goal to see category statistics here.
+            {t("categories_empty_message")}
           </Typography>
         </Paper>
       )}

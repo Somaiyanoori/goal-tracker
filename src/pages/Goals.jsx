@@ -1,10 +1,20 @@
 import { useState } from "react";
-import { Container, Typography, Grid, Tabs, Tab, Paper, Button } from "@mui/material";
+import {
+  Container,
+  Typography,
+  Grid,
+  Tabs,
+  Tab,
+  Paper,
+  Button,
+} from "@mui/material";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useGoals } from "../context/GoalContext";
 import GoalCard from "../components/GoalCard";
 
 const Goals = () => {
+  const { t } = useTranslation();
   const { goals } = useGoals();
   const [filter, setFilter] = useState("all");
   const handleChange = (e, newValue) => {
@@ -17,22 +27,28 @@ const Goals = () => {
   return (
     <Container sx={{ mt: 4 }}>
       <Typography variant="h5" fontWeight="bold" gutterBottom>
-        All Goals
+        {t("all_goals_title")}
       </Typography>
       <Tabs value={filter} onChange={handleChange} sx={{ mb: 3 }}>
-        <Tab label="All" value="all" />
-        <Tab label="Active" value="active" />
-        <Tab label="Completed" value="completed" />
-        <Tab label="Paused" value="paused" />
+        <Tab label={t("all")} value="all" />
+        <Tab label={t("active")} value="active" />
+        <Tab label={t("completed")} value="completed" />
+        <Tab label={t("paused")} value="paused" />
       </Tabs>
       {filteredGoals.length === 0 ? (
         <Paper sx={{ p: 4, textAlign: "center" }} variant="outlined">
-          <Typography variant="h6">No goals found.</Typography>
-          <Typography color="text.secondary" sx={{ mb: 2 }}>
-            Let's create one!
+          <Typography variant="h6">
+            {t("no_goals_found")}
           </Typography>
-          <Button variant="contained" component={Link} to="/goals/new">
-            Create Goal
+          <Typography color="text.secondary" sx={{ mb: 2 }}>
+            {t("lets_create_one")}
+          </Typography>
+          <Button
+            variant="contained"
+            component={Link}
+            to="/goals/new"
+          >
+            {t("create_goal")}
           </Button>
         </Paper>
       ) : (

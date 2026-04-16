@@ -11,14 +11,15 @@ import {
   ToggleButtonGroup,
   Divider,
 } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 const Settings = ({ mode, setMode, language, setLanguage }) => {
+  const { t } = useTranslation();
   const handleThemeChange = (_, newMode) => {
     if (newMode !== null) {
       setMode(newMode);
     }
   };
-  
   const handleLanguageChange = (event) => {
     setLanguage(event.target.value);
   };
@@ -33,35 +34,41 @@ const Settings = ({ mode, setMode, language, setLanguage }) => {
         }}
       >
         <Typography variant="h5" fontWeight="bold" gutterBottom>
-          Settings
+          {t("settings")}
         </Typography>
-
         <Stack spacing={4} mt={2}>
           <Stack spacing={2}>
-            <Typography variant="h6">Theme</Typography>
+            <Typography variant="h6">{t("theme")}</Typography>
             <ToggleButtonGroup
               value={mode}
               exclusive
               onChange={handleThemeChange}
               fullWidth
             >
-              <ToggleButton value="light">Light</ToggleButton>
-              <ToggleButton value="dark">Dark</ToggleButton>
+              <ToggleButton value="light">
+                {t("light")}
+              </ToggleButton>
+              <ToggleButton value="dark">
+                {t("dark")}
+              </ToggleButton>
             </ToggleButtonGroup>
           </Stack>
           <Divider />
-
           <Stack spacing={2}>
-            <Typography variant="h6">Language</Typography>
+            <Typography variant="h6">{t("language")}</Typography>
             <FormControl fullWidth>
-              <InputLabel>Language</InputLabel>
+              <InputLabel>{t("language")}</InputLabel>
               <Select
                 value={language}
-                label="Language"
+                label={t("language")}
                 onChange={handleLanguageChange}
               >
-                <MenuItem value="en">English</MenuItem>
-                <MenuItem value="fa">Persian</MenuItem>
+                <MenuItem value="en">
+                  {t("english")}
+                </MenuItem>
+                <MenuItem value="fa">
+                  {t("persian")}
+                </MenuItem>
               </Select>
             </FormControl>
           </Stack>

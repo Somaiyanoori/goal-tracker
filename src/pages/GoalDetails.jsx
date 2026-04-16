@@ -1,15 +1,28 @@
-import { useParams } from "react-router-dom";
-import { Container, Typography, Paper, Stack } from "@mui/material";
+import { useParams, useNavigate } from "react-router-dom";
+import {
+  Container,
+  Typography,
+  Paper,
+  Stack,
+} from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { useGoals } from "../context/GoalContext";
-import { useNavigate } from "react-router-dom";
+
 const GoalDetails = () => {
+  const { t } = useTranslation();
   const { id } = useParams();
+  const navigate = useNavigate();
   const { goals } = useGoals();
   const goal = goals.find((g) => g.id === id);
-  const navigate = useNavigate();
+
   if (!goal) {
     return (
-      <Typography onClick={() => navigate("*")}>Goal not found</Typography>
+      <Typography
+        sx={{ mt: 4, cursor: "pointer" }}
+        onClick={() => navigate("*")}
+      >
+        {t("goal_not_found")}
+      </Typography>
     );
   }
 
@@ -17,10 +30,18 @@ const GoalDetails = () => {
     <Container sx={{ mt: 4 }}>
       <Paper sx={{ p: 4, borderRadius: 3 }}>
         <Stack spacing={2}>
-          <Typography variant="h5">{goal.title}</Typography>
-          <Typography>Category: {goal.category}</Typography>
-          <Typography>Progress: {goal.progress}</Typography>
-          <Typography>Target: {goal.target}</Typography>
+          <Typography variant="h5">
+            {goal.title}
+          </Typography>
+          <Typography>
+            {t("category")}: {t(goal.category.toLowerCase())}
+          </Typography>
+          <Typography>
+            {t("progress")}: {goal.progress}
+          </Typography>
+          <Typography>
+            {t("target")}: {goal.target}
+          </Typography>
         </Stack>
       </Paper>
     </Container>
