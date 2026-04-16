@@ -49,5 +49,16 @@
   "all_goals_title": "تمام اهداف",
   "all": "همه",
   "paused": "متوقف شده",
-  "lets_create_one": "بیایید یکی ایجاد کنیم!"
+  "lets_create_one": "بیایید یکی ایجاد کنیم!",
+  "notFound": {
+    "title": "اوه! خطای 404",
+    "message": "صفحه مورد نظر پیدا نشد",
+    "goHome": "بازگشت به خانه"
+  },
+  "loading_goal_data": "در حال بارگذاری اطلاعات هدف...",
+  "progress": "پیشرفت",
+  "target": "هدف",
+  "goal_not_found": "هدف پیدا نشد",
+  "edit_goal": "ویرایش هدف",
+  "go_home": "بازگشت به خانه"
 }

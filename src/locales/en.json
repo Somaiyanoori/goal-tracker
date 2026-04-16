@@ -49,5 +49,12 @@
   "all_goals_title": "All Goals",
   "all": "All",
   "paused": "Paused",
-  "lets_create_one": "Let's create one!"
+  "lets_create_one": "Let's create one!",
+  "notFound": {
+    "title": "Oops, 404",
+    "message": "Page not found",
+    "goHome": "Go Home"
+  },
+  "loading_goal_data": "Loading goal data...",
+  "go_home": "Go Home"
 }
