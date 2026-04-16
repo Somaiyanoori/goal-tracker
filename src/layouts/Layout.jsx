@@ -28,7 +28,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 
 import ThemeToggle from "../components/ThemeToggle";
 import LanguageToggle from "../components/LanguageToggle";
-
+import AppLogo from "../assets/logo.png";
 const drawerWidth = 260;
 
 const Layout = ({ mode, setMode, language, setLanguage }) => {
@@ -44,17 +44,47 @@ const Layout = ({ mode, setMode, language, setLanguage }) => {
   };
 
   const menuItems = [
-    { title: t("dashboard") || "Dashboard", path: "/", icon: <DashboardIcon /> },
-    { title: t("all_goals") || "All Goals", path: "/goals", icon: <FormatListBulletedIcon /> },
-    { title: t("create_goal") || "Create Goal", path: "/goals/new", icon: <AddCircleOutlineIcon /> },
-    { title: t("categories") || "Categories", path: "/categories", icon: <CategoryIcon /> },
-    { title: t("settings") || "Settings", path: "/settings", icon: <SettingsIcon /> },
+    {
+      title: t("dashboard") || "Dashboard",
+      path: "/",
+      icon: <DashboardIcon />,
+    },
+    {
+      title: t("all_goals") || "All Goals",
+      path: "/goals",
+      icon: <FormatListBulletedIcon />,
+    },
+    {
+      title: t("create_goal") || "Create Goal",
+      path: "/goals/new",
+      icon: <AddCircleOutlineIcon />,
+    },
+    {
+      title: t("categories") || "Categories",
+      path: "/categories",
+      icon: <CategoryIcon />,
+    },
+    {
+      title: t("settings") || "Settings",
+      path: "/settings",
+      icon: <SettingsIcon />,
+    },
   ];
 
   const drawerContent = (
     <div>
       <Toolbar>
-        <Typography variant="h6" noWrap sx={{ fontWeight: "bold", color: "primary.main" }}>
+        {" "}
+        <img
+          src={AppLogo}
+          alt="Goal Tracker Logo"
+          style={{ height: 34, width: 34 }}
+        />
+        <Typography
+          variant="h6"
+          noWrap
+          sx={{ fontWeight: "bold", color: "primary.main" }}
+        >
           Goal Tracker
         </Typography>
       </Toolbar>
@@ -77,7 +107,9 @@ const Layout = ({ mode, setMode, language, setLanguage }) => {
                   },
                 }}
               >
-                <ListItemIcon sx={{ color: isActive ? "#fff" : "inherit", minWidth: 40 }}>
+                <ListItemIcon
+                  sx={{ color: isActive ? "#fff" : "inherit", minWidth: 40 }}
+                >
                   {item.icon}
                 </ListItemIcon>
                 <ListItemText primary={item.title} />
@@ -102,7 +134,12 @@ const Layout = ({ mode, setMode, language, setLanguage }) => {
         }}
       >
         <Toolbar>
-          <IconButton color="inherit" edge="start" onClick={handleDrawerToggle} sx={{ mr: 2, display: { md: "none" } }}>
+          <IconButton
+            color="inherit"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2, display: { md: "none" } }}
+          >
             <MenuIcon />
           </IconButton>
           <Box sx={{ flexGrow: 1 }} />
@@ -110,7 +147,10 @@ const Layout = ({ mode, setMode, language, setLanguage }) => {
           <ThemeToggle mode={mode} setMode={setMode} />
         </Toolbar>
       </AppBar>
-      <Box component="nav" sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}>
+      <Box
+        component="nav"
+        sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}
+      >
         <Drawer
           variant="temporary"
           open={mobileOpen}
@@ -118,7 +158,10 @@ const Layout = ({ mode, setMode, language, setLanguage }) => {
           ModalProps={{ keepMounted: true }}
           sx={{
             display: { xs: "block", md: "none" },
-            "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: drawerWidth,
+            },
           }}
         >
           {drawerContent}
@@ -127,7 +170,11 @@ const Layout = ({ mode, setMode, language, setLanguage }) => {
           variant="permanent"
           sx={{
             display: { xs: "none", md: "block" },
-            "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth, border: "none" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: drawerWidth,
+              border: "none",
+            },
           }}
           open
         >
