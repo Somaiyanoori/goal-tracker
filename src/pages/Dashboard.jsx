@@ -1,3 +1,9 @@
+import { useMemo } from "react";
+import { Link } from "react-router-dom";
+import { Container, Typography, Grid, Paper, Box, Icon, Button } from "@mui/material";
+import { useGoals } from "../context/GoalContext";
+import GoalCard from "../components/GoalCard";
+import { calculateOverallCompletion, calculateOverallStreak} from "../utils/calculation";
 // src/pages/Dashboard.jsx
 
 import React, { useMemo } from "react";
@@ -43,19 +49,15 @@ const StatCard = ({ title, value, icon, color }) => (
 
 const Dashboard = () => {
   const { goals, userStats } = useGoals();
-
-  // Calculate derived stats
   const overallCompletion = useMemo(
     () => calculateOverallCompletion(goals),
     [goals],
   );
   const streak = useMemo(() => calculateOverallStreak(goals), [goals]);
-
   const activeGoals = goals.filter((g) => g.status === "active").slice(0, 6);
 
   return (
     <Container maxWidth="lg">
-      {/* Top Summary Stats */}
       <Typography variant="h5" fontWeight="bold" gutterBottom>
         Dashboard Overview
       </Typography>
@@ -93,8 +95,6 @@ const Dashboard = () => {
           />
         </Grid>
       </Grid>
-
-      {/* Active Goals Section */}
       <Typography variant="h5" fontWeight="bold" gutterBottom>
         Active Goals
       </Typography>
@@ -108,17 +108,20 @@ const Dashboard = () => {
         </Grid>
       ) : (
         <Paper
-          sx={{
-            p: 4,
-            textAlign: "center",
-            backgroundColor: "background.default",
-          }}
+          sx={{ p: 4, textAlign: "center", backgroundColor: "background.default", color: "text.primary" }}
           variant="outlined"
         >
           <Typography variant="h6">No active goals yet.</Typography>
           <Typography color="text.secondary">
             Create a new goal to get started!
           </Typography>
+          <Button
+            variant="contained"
+            component={Link}
+            to="/goals/new"
+          >
+            Create Goal
+          </Button>
         </Paper>
       )}
     </Container>
