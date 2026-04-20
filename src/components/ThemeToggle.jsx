@@ -1,17 +1,19 @@
-import React from "react";
-import { IconButton } from "@mui/material";
-import DarkModeIcon from "@mui/icons-material/DarkMode";
+import { IconButton, Tooltip } from "@mui/material";
 import LightModeIcon from "@mui/icons-material/LightMode";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
 
 const ThemeToggle = ({ mode, setMode }) => {
-  const toggleTheme = () => {
-    setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
-  };
-
   return (
-    <IconButton color="inherit" onClick={toggleTheme} sx={{ ml: 1 }}>
-      {mode === "light" ? <DarkModeIcon /> : <LightModeIcon />}
-    </IconButton>
+    <Tooltip
+      title={mode === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
+    >
+      <IconButton
+        onClick={() => setMode(mode === "light" ? "dark" : "light")}
+        color="inherit"
+      >
+        {mode === "dark" ? <LightModeIcon /> : <DarkModeIcon />}
+      </IconButton>
+    </Tooltip>
   );
 };
 

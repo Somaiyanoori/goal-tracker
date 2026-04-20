@@ -1,70 +1,102 @@
-const components = {
-  MuiCard: {
+const components = (palette) => ({
+  MuiCssBaseline: {
     styleOverrides: {
-      root: {
-        borderRadius: 18,
-        boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
-        transition: "all 0.25s ease",
-        "&:hover": {
-          transform: "translateY(-3px)",
-          boxShadow: "0 10px 20px rgba(0,0,0,0.08)"
-        }
-      }
-    }
-  },
-  MuiButton: {
-    styleOverrides: {
-      root: {
-        borderRadius: 12,
-        padding: "8px 20px",
-        textTransform: "none"
+      body: {
+        scrollbarWidth: "thin",
+        "&::-webkit-scrollbar": { width: 6 },
+        "&::-webkit-scrollbar-thumb": {
+          borderRadius: 10,
+          background:
+            palette.mode === "dark"
+              ? "rgba(255,255,255,0.2)"
+              : "rgba(0,0,0,0.2)",
+        },
       },
-      containedPrimary: {
-        boxShadow: "none"
-      }
-    }
+    },
   },
   MuiPaper: {
     styleOverrides: {
       root: {
-        borderRadius: 14,
-        transition: "all 0.25s ease"
-      }
-    }
+        backgroundImage: "none",
+      },
+    },
   },
-  MuiLinearProgress: {
+  MuiButton: {
     styleOverrides: {
       root: {
-        height: 8,
-        borderRadius: 6
+        textTransform: "none",
+        fontWeight: 700,
+        letterSpacing: 0.2,
+        boxShadow: "none",
+        transition: "all 0.25s ease",
       },
-      bar: {
-        borderRadius: 6
-      }
-    }
+    },
   },
   MuiTextField: {
     defaultProps: {
-      size: "small",
-      variant: "outlined"
-    }
+      variant: "outlined",
+    },
   },
   MuiAppBar: {
     styleOverrides: {
       root: {
         boxShadow: "none",
-        borderBottom: "1px solid #eee"
-      }
-    }
+        border: "none",
+        backdropFilter: "blur(12px)",
+      },
+    },
+  },
+  MuiDrawer: {
+    styleOverrides: {
+      paper: {
+        border: "none",
+      },
+    },
+  },
+  MuiTabs: {
+    styleOverrides: {
+      root: {
+        "& .MuiTabs-indicator": {
+          borderRadius: 4,
+          height: 3,
+        },
+      },
+    },
+  },
+  MuiTab: {
+    styleOverrides: {
+      root: {
+        textTransform: "none",
+        fontWeight: 600,
+      },
+    },
+  },
+  MuiIconButton: {
+    styleOverrides: {
+      root: {
+        transition: "all 0.2s ease",
+        "&:hover": {
+          transform: "scale(1.08)",
+        },
+      },
+    },
+  },
+  MuiDialog: {
+    styleOverrides: {
+      paper: {
+        borderRadius: 16,
+        backgroundImage: "none",
+      },
+    },
   },
   MuiContainer: {
     styleOverrides: {
       root: {
-        paddingTop: "24px",
-        paddingBottom: "24px"
-      }
-    }
-  }
-};
+        paddingTop: "28px",
+        paddingBottom: "36px",
+      },
+    },
+  },
+});
 
 export default components;

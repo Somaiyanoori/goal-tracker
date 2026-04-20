@@ -1,197 +1,60 @@
-import React, { useState } from "react";
-import { Outlet, useNavigate, useLocation } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import { useState } from "react";
+import { Outlet } from "react-router-dom";
 import {
-  AppBar,
   Box,
   CssBaseline,
-  Drawer,
-  IconButton,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
   Toolbar,
-  Typography,
   useTheme,
   useMediaQuery,
 } from "@mui/material";
+import Navbar from "../components/Navbar";
+import Sidebar from "../components/Sidebar";
 
-// Icons
-import MenuIcon from "@mui/icons-material/Menu";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import CategoryIcon from "@mui/icons-material/Category";
-import SettingsIcon from "@mui/icons-material/Settings";
-
-import ThemeToggle from "../components/ThemeToggle";
-import LanguageToggle from "../components/LanguageToggle";
-import AppLogo from "../assets/logo.png";
-const drawerWidth = 260;
+const drawerWidth = 268;
 
 const Layout = ({ mode, setMode, language, setLanguage }) => {
-  const { t } = useTranslation();
   const theme = useTheme();
-  const navigate = useNavigate();
-  const location = useLocation();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  const [mobileOpen, setMobileOpen] = useState(false);
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
-
-  const menuItems = [
-    {
-      title: t("dashboard") || "Dashboard",
-      path: "/",
-      icon: <DashboardIcon />,
-    },
-    {
-      title: t("all_goals") || "All Goals",
-      path: "/goals",
-      icon: <FormatListBulletedIcon />,
-    },
-    {
-      title: t("create_goal") || "Create Goal",
-      path: "/goals/new",
-      icon: <AddCircleOutlineIcon />,
-    },
-    {
-      title: t("categories") || "Categories",
-      path: "/categories",
-      icon: <CategoryIcon />,
-    },
-    {
-      title: t("settings") || "Settings",
-      path: "/settings",
-      icon: <SettingsIcon />,
-    },
-  ];
-
-  const drawerContent = (
-    <div>
-      <Toolbar>
-        {" "}
-        <img
-          src={AppLogo}
-          alt="Goal Tracker Logo"
-          style={{ height: 34, width: 34 }}
-        />
-        <Typography
-          variant="h6"
-          noWrap
-          sx={{ fontWeight: "bold", color: "primary.main" }}
-        >
-          Goal Tracker
-        </Typography>
-      </Toolbar>
-      <List sx={{ px: 2 }}>
-        {menuItems.map((item) => {
-          const isActive = location.pathname === item.path;
-          return (
-            <ListItem key={item.path} disablePadding sx={{ mb: 1 }}>
-              <ListItemButton
-                onClick={() => {
-                  navigate(item.path);
-                  if (isMobile) setMobileOpen(false);
-                }}
-                sx={{
-                  borderRadius: 2,
-                  backgroundColor: isActive ? "primary.main" : "transparent",
-                  color: isActive ? "#fff" : "text.primary",
-                  "&:hover": {
-                    backgroundColor: isActive ? "primary.dark" : "action.hover",
-                  },
-                }}
-              >
-                <ListItemIcon
-                  sx={{ color: isActive ? "#fff" : "inherit", minWidth: 40 }}
-                >
-                  {item.icon}
-                </ListItemIcon>
-                <ListItemText primary={item.title} />
-              </ListItemButton>
-            </ListItem>
-          );
-        })}
-      </List>
-    </div>
-  );
+  const [open, setOpen] = useState(false);
 
   return (
     <Box sx={{ display: "flex", minHeight: "100vh" }}>
       <CssBaseline />
-      <AppBar
-        position="fixed"
-        sx={{
-          width: { md: `calc(100% - ${drawerWidth}px)` },
-          ml: { md: `${drawerWidth}px` },
-          backgroundColor: "background.paper",
-          color: "text.primary",
-        }}
-      >
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { md: "none" } }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Box sx={{ flexGrow: 1 }} />
-          <LanguageToggle language={language} setLanguage={setLanguage} />
-          <ThemeToggle mode={mode} setMode={setMode} />
-        </Toolbar>
-      </AppBar>
-      <Box
-        component="nav"
-        sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}
-      >
-        <Drawer
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{ keepMounted: true }}
-          sx={{
-            display: { xs: "block", md: "none" },
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-            },
-          }}
-        >
-          {drawerContent}
-        </Drawer>
-        <Drawer
-          variant="permanent"
-          sx={{
-            display: { xs: "none", md: "block" },
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-              border: "none",
-            },
-          }}
-          open
-        >
-          {drawerContent}
-        </Drawer>
-      </Box>
+
+      <Navbar
+        drawerWidth={drawerWidth}
+        isMobile={isMobile}
+        onMenuClick={() => setOpen(true)}
+        mode={mode}
+        setMode={setMode}
+        language={language}
+        setLanguage={setLanguage}
+      />
+
+      <Sidebar
+        drawerWidth={drawerWidth}
+        isMobile={isMobile}
+        open={open}
+        onClose={() => setOpen(false)}
+        mode={mode}
+        setMode={setMode}
+        language={language}
+        setLanguage={setLanguage}
+      />
+
+      {/* Main Content */}
       <Box
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
           width: { md: `calc(100% - ${drawerWidth}px)` },
           backgroundColor: "background.default",
         }}
       >
-        <Toolbar />
-        <Outlet />
+        <Toolbar sx={{ minHeight: "66px !important" }} />
+        <Box sx={{ p: { xs: 2, md: 3 } }}>
+          <Outlet />
+        </Box>
       </Box>
     </Box>
   );

@@ -3,22 +3,19 @@ import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import en from "./locales/en.json";
 import fa from "./locales/fa.json";
+
 i18n
-  .use(LanguageDetector) 
-  .use(initReactI18next) 
+  .use(LanguageDetector)
+  .use(initReactI18next)
   .init({
     resources: {
       en: { translation: en },
       fa: { translation: fa },
     },
-    fallbackLng: "en",        
-    debug: true,              
-    interpolation: {
-      escapeValue: false,     
-    },
-    react: {
-      useSuspense: false
-    }
+    fallbackLng: "en",
+    debug: false,
+    interpolation: { escapeValue: false },
+    react: { useSuspense: false },
   });
 
 export default i18n;

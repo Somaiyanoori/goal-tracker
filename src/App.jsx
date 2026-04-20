@@ -1,11 +1,9 @@
-import React, { useState, useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import { CacheProvider } from "@emotion/react";
 import CssBaseline from "@mui/material/CssBaseline";
 import createEmotionCache from "./createEmotionCache";
-
-// Components & Pages
 import Layout from "./layouts/Layout";
 import Dashboard from "./pages/Dashboard";
 import Goals from "./pages/Goals";
@@ -15,15 +13,15 @@ import Categories from "./pages/Categories";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 import EditGoal from "./pages/EditGoal";
-// Context & Theme
 import { GoalProvider } from "./context/GoalContext";
 import createAppTheme from "./theme/theme";
 import { getDirection } from "./theme/direction";
 import i18n from "./i18n";
+import { useLocalStorage } from "./hooks/useLocalStorage";
 
 function App() {
-  const [mode, setMode] = useState("light");
-  const [language, setLanguage] = useState("en");
+  const [mode, setMode] = useLocalStorage("themeMode", "light");
+  const [language, setLanguage] = useLocalStorage("appLanguage", "en");
 
   const direction = getDirection(language);
   const theme = useMemo(
@@ -35,22 +33,19 @@ function App() {
     [direction],
   );
 
-  // Handle direction (RTL/LTR)
   useEffect(() => {
     document.documentElement.dir = direction;
-    document.body.dir = direction;
   }, [direction]);
 
-  // Handle language change
   useEffect(() => {
     i18n.changeLanguage(language);
   }, [language]);
 
   return (
     <CacheProvider value={emotionCache}>
-      <GoalProvider>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <GoalProvider>
           <Routes>
             <Route
               path="/"
@@ -83,8 +78,8 @@ function App() {
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
-        </ThemeProvider>
-      </GoalProvider>
+        </GoalProvider>
+      </ThemeProvider>
     </CacheProvider>
   );
 }
