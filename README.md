@@ -5,7 +5,7 @@
 This project was built as a comprehensive assignment for a React class, demonstrating a wide range of modern front-end development skills and best practices.
 
 ## Live Demo
-
+  https://goal-tracker-six-neon.vercel.app
 ## 📸 Screenshots
 
 ### Desktop View
