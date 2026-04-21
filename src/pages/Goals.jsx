@@ -14,6 +14,7 @@ import {
   Paper,
   useTheme,
   alpha,
+  useMediaQuery,
 } from "@mui/material";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
@@ -30,6 +31,7 @@ const Goals = () => {
   const theme = useTheme();
   const { goals } = useGoals();
   const isDark = theme.palette.mode === "dark";
+  const isXs = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [filter, setFilter] = useState("all");
   const [search, setSearch] = useState("");
@@ -98,22 +100,42 @@ const Goals = () => {
   };
 
   return (
-    <Container maxWidth="lg">
+    <Container
+      maxWidth="lg"
+      sx={{
+        py: { xs: 2, sm: 3 },
+        px: { xs: 1.5, sm: 2 },
+      }}
+    >
+      {/* Header */}
       <Stack
         direction={{ xs: "column", sm: "row" }}
         justifyContent="space-between"
         alignItems={{ xs: "stretch", sm: "center" }}
-        mb={4}
-        spacing={2}
+        mb={{ xs: 2, sm: 4 }}
+        spacing={{ xs: 1.5, sm: 2 }}
       >
-        <Box>
-          <Typography variant="h4">{t("all_goals")}</Typography>
-          <Typography variant="body2" color="text.secondary">
+        <Box sx={{ minWidth: 0 }}>
+          <Typography variant={isXs ? "h5" : "h4"} sx={{ lineHeight: 1.15 }}>
+            {t("all_goals")}
+          </Typography>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{
+              mt: 0.5,
+              display: "-webkit-box",
+              WebkitLineClamp: { xs: 2, sm: "unset" },
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+            }}
+          >
             {counts.all} {t("all").toLowerCase()} &middot; {counts.active}{" "}
             {t("active").toLowerCase()} &middot; {counts.completed}{" "}
             {t("completed").toLowerCase()}
           </Typography>
         </Box>
+
         <Button
           variant="contained"
           startIcon={<AddRoundedIcon />}
@@ -128,17 +150,18 @@ const Goals = () => {
             border: "none",
             "&:hover": { border: "none" },
             width: { xs: "100%", sm: "auto" },
+            py: { xs: 1.2, sm: 1.1 },
           }}
         >
           {t("new_goal")}
         </Button>
       </Stack>
 
+      {/* Tabs */}
       <Paper
         sx={{
-          mb: 3,
-          borderRadius: "18px",
-          overflow: "hidden",
+          mb: { xs: 2, sm: 3 },
+          borderRadius: { xs: "16px", sm: "18px" },
           boxShadow: theme.shadows[isDark ? 5 : 2],
         }}
       >
@@ -149,7 +172,8 @@ const Goals = () => {
           scrollButtons="auto"
           allowScrollButtonsMobile
           sx={{
-            px: 2,
+            px: { xs: 1, sm: 2 },
+            minHeight: { xs: 44, sm: 56 },
             "& .MuiTabs-indicator": {
               background: primaryGradient,
               height: 3,
@@ -162,18 +186,28 @@ const Goals = () => {
               key={tab}
               value={tab}
               label={
-                <Stack direction="row" alignItems="center" spacing={1}>
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  spacing={1}
+                  sx={{ whiteSpace: "nowrap" }}
+                >
                   <span>{t(tab)}</span>
                   <Chip
                     label={counts[tab]}
                     size="small"
                     sx={{
+                      height: 20,
+                      "& .MuiChip-label": {
+                        px: 0.75,
+                        fontSize: "0.75rem",
+                        fontWeight: 700,
+                      },
                       backgroundColor:
                         filter === tab
                           ? alpha(primaryColor, 0.18)
                           : alpha(theme.palette.text.primary, 0.05),
                       color: filter === tab ? primaryColor : "text.secondary",
-                      fontWeight: 700,
                     }}
                   />
                 </Stack>
@@ -181,19 +215,23 @@ const Goals = () => {
               sx={{
                 textTransform: "none",
                 fontWeight: 600,
-                py: 2.5,
                 color: filter === tab ? primaryColor : "text.secondary",
+                minHeight: { xs: 44, sm: 56 },
+                py: { xs: 1.2, sm: 2.0 },
+                px: { xs: 1.25, sm: 2.0 },
+                minWidth: { xs: "auto", sm: 120 },
               }}
             />
           ))}
         </Tabs>
       </Paper>
 
+      {/* Filters */}
       <Stack
         direction={{ xs: "column", sm: "row" }}
-        spacing={2}
-        mb={3}
-        alignItems="center"
+        spacing={{ xs: 1.5, sm: 2 }}
+        mb={{ xs: 2, sm: 3 }}
+        alignItems={{ xs: "stretch", sm: "center" }}
       >
         <TextField
           placeholder={t("search_placeholder")}
@@ -210,6 +248,7 @@ const Goals = () => {
             sx: inputSx,
           }}
         />
+
         <TextField
           select
           value={sort}
@@ -231,6 +270,7 @@ const Goals = () => {
             </MenuItem>
           ))}
         </TextField>
+
         {hasActiveFilters && (
           <Button
             size="small"
@@ -238,15 +278,22 @@ const Goals = () => {
               setSearch("");
               setFilter("all");
             }}
-            sx={{ color: "error.main", whiteSpace: "nowrap" }}
+            sx={{
+              color: "error.main",
+              whiteSpace: "nowrap",
+              width: { xs: "100%", sm: "auto" },
+              py: { xs: 1.0, sm: 0.5 },
+              borderRadius: 2,
+            }}
           >
             {t("clear_filters")}
           </Button>
         )}
       </Stack>
 
+      {/* Content */}
       {filteredGoals.length > 0 ? (
-        <Grid container spacing={3}>
+        <Grid container spacing={{ xs: 2, sm: 3 }}>
           {filteredGoals.map((goal) => (
             <Grid size={{ xs: 12, sm: 6, lg: 4 }} key={goal.id}>
               <GoalCard goal={goal} />
@@ -256,9 +303,10 @@ const Goals = () => {
       ) : (
         <Box
           sx={{
-            py: 12,
+            py: { xs: 7, sm: 12 },
+            px: { xs: 2, sm: 0 },
             textAlign: "center",
-            borderRadius: "24px",
+            borderRadius: { xs: "18px", sm: "24px" },
             background: alpha(theme.palette.primary.main, 0.02),
             border: `2px dashed ${alpha(theme.palette.primary.main, 0.1)}`,
           }}
@@ -268,7 +316,7 @@ const Goals = () => {
               ? t("no_goals_title")
               : t("no_match_title", "No Goals Match Your Search")}
           </Typography>
-          <Typography color="text.secondary">
+          <Typography color="text.secondary" sx={{ mt: 0.5 }}>
             {goals.length === 0
               ? t("no_goals_sub")
               : t(
