@@ -5,22 +5,24 @@
 This project was built as a comprehensive assignment for a React class, demonstrating a wide range of modern front-end development skills and best practices.
 
 ## Live Demo
-  https://goal-tracker-six-neon.vercel.app
+
+https://goal-tracker-six-neon.vercel.app
+
 ## 📸 Screenshots
 
 ### Desktop View
 
-![Desktop Screenshot](<img width="1889" height="948" alt="image" src="https://github.com/user-attachments/assets/8a4bd6a2-3ffb-4a36-bdb2-319433a72ec7" />
+![Desktop Screenshot](![alt text](image-3.png)
 )
 
 ### Mobile View
 
-![Mobile Screenshot](<img width="320" height="699" alt="image" src="https://github.com/user-attachments/assets/ffcdde44-abe2-40c0-b4b3-beb12e444c73" />
+![Mobile Screenshot](![alt text](image-2.png)
 )
 
 ### RTL Layout (Persian)
 
-![RTL Screenshot](<img width="1887" height="949" alt="image" src="https://github.com/user-attachments/assets/a848b589-f1c7-4fb9-9ba2-fb81f1392f56" />
+![RTL Screenshot](![alt text](image-4.png)
 )
 
 ## Features Checklist
@@ -112,16 +114,16 @@ The gamification system is designed to encourage consistent user engagement.
 - **Completing a Goal:** When a goal's progress reaches its target (or is marked as complete manually), you receive a **+50 XP** completion bonus.
 - Your total XP is displayed on the Dashboard and in the sidebar.
 
-##  Team Contributions
+## Team Contributions
 
 This project was a collaborative effort between two developers. We practiced paired programming, code reviews, and distributed feature ownership to build the application.
 
--   **Somaiya Noori** ([Somaiyanoori](https://github.com/Somaiyanoori))
--   **Tamana Fazel** ([fazeltamana](https://github.com/fazeltamana))
+- **Somaiya Noori** ([Somaiyanoori](https://github.com/Somaiyanoori))
+- **Tamana Fazel** ([fazeltamana](https://github.com/fazeltamana))
 
 Git Commit Evidence
 
 Both team members contributed actively to the project's codebase. The commit history reflects our individual contributions and collaborative efforts throughout the development process.
 
--   **[View Commit History](https://github.com/Somaiyanoori/goal-tracker/commits/main)**
--   **[View Contributors Page](https://github.com/Somaiyanoori/goal-tracker/graphs/contributors)**
+- **[View Commit History](https://github.com/Somaiyanoori/goal-tracker/commits/main)**
+- **[View Contributors Page](https://github.com/Somaiyanoori/goal-tracker/graphs/contributors)**
