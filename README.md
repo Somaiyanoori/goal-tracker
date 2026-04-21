@@ -12,18 +12,15 @@ https://goal-tracker-six-neon.vercel.app
 
 ### Desktop View
 
-![Desktop Screenshot](![alt text](image-3.png)
-)
-
-### Mobile View
-
-![Mobile Screenshot](![alt text](image-2.png)
-)
+![alt text](image-3.png)
 
 ### RTL Layout (Persian)
 
-![RTL Screenshot](![alt text](image-4.png)
-)
+![alt text](image-4.png)
+
+### Mobile View
+
+![alt text](image-2.png)
 
 ## Features Checklist
 
