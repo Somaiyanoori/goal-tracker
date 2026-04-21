@@ -118,9 +118,13 @@ This project was a collaborative effort between two developers. We practiced pai
 - **Somaiya Noori** ([Somaiyanoori](https://github.com/Somaiyanoori))
 - **Tamana Fazel** ([fazeltamana](https://github.com/fazeltamana))
 
-Git Commit Evidence
+### Git Commit Evidence
 
 Both team members contributed actively to the project's codebase. The commit history reflects our individual contributions and collaborative efforts throughout the development process.
 
 - **[View Commit History](https://github.com/Somaiyanoori/goal-tracker/commits/main)**
 - **[View Contributors Page](https://github.com/Somaiyanoori/goal-tracker/graphs/contributors)**
+
+## License
+
+Distributed under the MIT License. See `LICENSE` for more information.
