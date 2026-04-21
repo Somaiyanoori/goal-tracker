@@ -14,7 +14,7 @@ import {
   Paper,
   useTheme,
   alpha,
-  useMediaQuery,
+  Divider,
 } from "@mui/material";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
@@ -31,7 +31,6 @@ const Goals = () => {
   const theme = useTheme();
   const { goals } = useGoals();
   const isDark = theme.palette.mode === "dark";
-  const isXs = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [filter, setFilter] = useState("all");
   const [search, setSearch] = useState("");
@@ -40,6 +39,24 @@ const Goals = () => {
   const primaryGradient = `linear-gradient(135deg, ${theme.palette.primary.dark}, ${theme.palette.primary.main})`;
   const primaryShadow = alpha(theme.palette.primary.main, isDark ? 0.35 : 0.3);
   const primaryColor = theme.palette.primary.main;
+
+  const softBtnSx = {
+    borderRadius: "14px",
+    border: "none",
+    backgroundColor: alpha(theme.palette.text.primary, 0.04),
+    color: "text.secondary",
+    "&:hover": {
+      backgroundColor: alpha(theme.palette.text.primary, 0.08),
+      border: "none",
+    },
+  };
+
+  const inputSx = {
+    borderRadius: "14px",
+    backgroundColor: "background.paper",
+    boxShadow: `0 2px 10px ${alpha(theme.palette.text.primary, 0.05)}`,
+    "& .MuiOutlinedInput-root": { "& fieldset": { border: "none" } },
+  };
 
   const SORT_OPTIONS = [
     { value: "newest", label: t("newest") },
@@ -62,11 +79,13 @@ const Goals = () => {
 
   const filteredGoals = useMemo(() => {
     let result = goals;
+
     if (filter !== "all") result = result.filter((g) => g.status === filter);
-    if (search.trim())
-      result = result.filter((g) =>
-        g.title.toLowerCase().includes(search.toLowerCase()),
-      );
+
+    if (search.trim()) {
+      const q = search.toLowerCase();
+      result = result.filter((g) => g.title.toLowerCase().includes(q));
+    }
 
     return [...result].sort((a, b) => {
       switch (sort) {
@@ -92,19 +111,11 @@ const Goals = () => {
 
   const hasActiveFilters = search || filter !== "all";
 
-  const inputSx = {
-    borderRadius: "14px",
-    backgroundColor: "background.paper",
-    boxShadow: `0 2px 10px ${alpha(theme.palette.text.primary, 0.05)}`,
-    "& .MuiOutlinedInput-root": { "& fieldset": { border: "none" } },
-  };
-
   return (
     <Container
       maxWidth="lg"
       sx={{
         py: { xs: 2, sm: 3 },
-        px: { xs: 1.5, sm: 2 },
       }}
     >
       {/* Header */}
@@ -112,13 +123,20 @@ const Goals = () => {
         direction={{ xs: "column", sm: "row" }}
         justifyContent="space-between"
         alignItems={{ xs: "stretch", sm: "center" }}
-        mb={{ xs: 2, sm: 4 }}
-        spacing={{ xs: 1.5, sm: 2 }}
+        spacing={2}
+        mb={{ xs: 2.5, sm: 4 }}
       >
         <Box sx={{ minWidth: 0 }}>
-          <Typography variant={isXs ? "h5" : "h4"} sx={{ lineHeight: 1.15 }}>
+          <Typography
+            variant="h4"
+            sx={{
+              fontSize: { xs: "1.6rem", sm: "2.125rem" }, // mobile-friendly h4
+              lineHeight: 1.15,
+            }}
+          >
             {t("all_goals")}
           </Typography>
+
           <Typography
             variant="body2"
             color="text.secondary"
@@ -144,13 +162,17 @@ const Goals = () => {
           size="large"
           sx={{
             px: 3.5,
+            py: 1.3,
             borderRadius: "16px",
             background: primaryGradient,
             boxShadow: `0 6px 20px ${primaryShadow}`,
             border: "none",
-            "&:hover": { border: "none" },
+            "&:hover": {
+              background: `linear-gradient(135deg, ${theme.palette.primary.dark}, ${theme.palette.secondary.dark})`,
+              boxShadow: `0 10px 28px ${primaryShadow}`,
+              border: "none",
+            },
             width: { xs: "100%", sm: "auto" },
-            py: { xs: 1.2, sm: 1.1 },
           }}
         >
           {t("new_goal")}
@@ -161,7 +183,7 @@ const Goals = () => {
       <Paper
         sx={{
           mb: { xs: 2, sm: 3 },
-          borderRadius: { xs: "16px", sm: "18px" },
+          borderRadius: "24px",
           boxShadow: theme.shadows[isDark ? 5 : 2],
         }}
       >
@@ -173,7 +195,7 @@ const Goals = () => {
           allowScrollButtonsMobile
           sx={{
             px: { xs: 1, sm: 2 },
-            minHeight: { xs: 44, sm: 56 },
+            minHeight: { xs: 46, sm: 56 },
             "& .MuiTabs-indicator": {
               background: primaryGradient,
               height: 3,
@@ -208,18 +230,18 @@ const Goals = () => {
                           ? alpha(primaryColor, 0.18)
                           : alpha(theme.palette.text.primary, 0.05),
                       color: filter === tab ? primaryColor : "text.secondary",
+                      fontWeight: 700,
                     }}
                   />
                 </Stack>
               }
               sx={{
                 textTransform: "none",
-                fontWeight: 600,
+                fontWeight: 700,
                 color: filter === tab ? primaryColor : "text.secondary",
-                minHeight: { xs: 44, sm: 56 },
-                py: { xs: 1.2, sm: 2.0 },
+                minHeight: { xs: 46, sm: 56 },
+                py: { xs: 1.2, sm: 2.2 },
                 px: { xs: 1.25, sm: 2.0 },
-                minWidth: { xs: "auto", sm: 120 },
               }}
             />
           ))}
@@ -227,75 +249,76 @@ const Goals = () => {
       </Paper>
 
       {/* Filters */}
-      <Stack
-        direction={{ xs: "column", sm: "row" }}
-        spacing={{ xs: 1.5, sm: 2 }}
-        mb={{ xs: 2, sm: 3 }}
-        alignItems={{ xs: "stretch", sm: "center" }}
-      >
-        <TextField
-          placeholder={t("search_placeholder")}
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          fullWidth
-          size="small"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchRoundedIcon color="action" />
-              </InputAdornment>
-            ),
-            sx: inputSx,
-          }}
-        />
-
-        <TextField
-          select
-          value={sort}
-          onChange={(e) => setSort(e.target.value)}
-          size="small"
-          fullWidth
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <TuneRoundedIcon color="action" />
-              </InputAdornment>
-            ),
-            sx: inputSx,
-          }}
+      <Stack spacing={2} mb={{ xs: 2, sm: 3 }}>
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          spacing={2}
+          alignItems={{ xs: "stretch", sm: "center" }}
         >
-          {SORT_OPTIONS.map((o) => (
-            <MenuItem key={o.value} value={o.value}>
-              {o.label}
-            </MenuItem>
-          ))}
-        </TextField>
-
-        {hasActiveFilters && (
-          <Button
+          <TextField
+            placeholder={t("search_placeholder")}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            fullWidth
             size="small"
-            onClick={() => {
-              setSearch("");
-              setFilter("all");
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchRoundedIcon color="action" />
+                </InputAdornment>
+              ),
+              sx: inputSx,
             }}
-            sx={{
-              color: "error.main",
-              whiteSpace: "nowrap",
-              width: { xs: "100%", sm: "auto" },
-              py: { xs: 1.0, sm: 0.5 },
-              borderRadius: 2,
+          />
+
+          <TextField
+            select
+            value={sort}
+            onChange={(e) => setSort(e.target.value)}
+            size="small"
+            fullWidth
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <TuneRoundedIcon color="action" />
+                </InputAdornment>
+              ),
+              sx: inputSx,
             }}
           >
-            {t("clear_filters")}
-          </Button>
-        )}
+            {SORT_OPTIONS.map((o) => (
+              <MenuItem key={o.value} value={o.value}>
+                {o.label}
+              </MenuItem>
+            ))}
+          </TextField>
+
+          {hasActiveFilters && (
+            <Button
+              onClick={() => {
+                setSearch("");
+                setFilter("all");
+              }}
+              sx={{
+                ...softBtnSx,
+                color: "error.main",
+                width: { xs: "100%", sm: "auto" },
+                py: { xs: 1.2, sm: 0.8 },
+              }}
+            >
+              {t("clear_filters")}
+            </Button>
+          )}
+        </Stack>
+
+        <Divider sx={{ opacity: 0.25, display: { xs: "block", sm: "none" } }} />
       </Stack>
 
-      {/* Content */}
+      {/* Cards */}
       {filteredGoals.length > 0 ? (
         <Grid container spacing={{ xs: 2, sm: 3 }}>
           {filteredGoals.map((goal) => (
-            <Grid size={{ xs: 12, sm: 6, lg: 4 }} key={goal.id}>
+            <Grid key={goal.id} size={{ xs: 12, sm: 6, lg: 4 }}>
               <GoalCard goal={goal} />
             </Grid>
           ))}
@@ -306,7 +329,7 @@ const Goals = () => {
             py: { xs: 7, sm: 12 },
             px: { xs: 2, sm: 0 },
             textAlign: "center",
-            borderRadius: { xs: "18px", sm: "24px" },
+            borderRadius: "24px",
             background: alpha(theme.palette.primary.main, 0.02),
             border: `2px dashed ${alpha(theme.palette.primary.main, 0.1)}`,
           }}
@@ -324,6 +347,26 @@ const Goals = () => {
                   "Try using different keywords or clearing filters.",
                 )}
           </Typography>
+
+          {goals.length === 0 && (
+            <Button
+              variant="contained"
+              component={Link}
+              to="/goals/new"
+              startIcon={<AddRoundedIcon />}
+              size="large"
+              sx={{
+                mt: 3,
+                borderRadius: "14px",
+                background: primaryGradient,
+                boxShadow: `0 6px 20px ${primaryShadow}`,
+                border: "none",
+                width: { xs: "100%", sm: "auto" },
+              }}
+            >
+              {t("create_first")}
+            </Button>
+          )}
         </Box>
       )}
     </Container>
